@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>java-object-cache-manager-mbean</artifactId>
+	<packaging>jboss-sar</packaging>
+	<name>java-object-cache-manager-mbean</name>
+	
+	<parent>
+		<groupId>com.electrocomponents</groupId>
+		<artifactId>java-object-cache-manager</artifactId>
+		<version>2.0.0-SNAPSHOT</version>
+	</parent>	
+		
+	<properties>
+		<infinispan.version>6.4.1.Final-redhat-1</infinispan.version>	
+	</properties>
+	
+	<dependencies>	
+		<dependency>
+			<groupId>org.infinispan</groupId>
+			<artifactId>infinispan-bom</artifactId>
+			<version>${infinispan.version}</version>
+			<type>pom</type>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+   			<groupId>org.infinispan</groupId>
+   			<artifactId>infinispan-embedded</artifactId>
+   			<version>${infinispan.version}</version>
+   			<scope>provided</scope>
+		</dependency>	
+		<dependency>
+   			<groupId>com.electrocomponents</groupId>
+   			<artifactId>java-object-cache-manager-api</artifactId>
+   			<version>${project.parent.version}</version>
+		</dependency>	
+	</dependencies>
+
+	<build>
+		<!-- use the jboss sar plugin as the standard Maven one doesn't allow manifest dependency entries -->
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jboss-packaging-maven-plugin</artifactId>
+                <version>2.2</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <archive>
+						<manifestEntries>
+							<!-- <Dependencies>org.infinispan:jdg-6.6 services</Dependencies> -->
+							<Dependencies>org.infinispan export</Dependencies>
+						</manifestEntries>		
+					</archive>				
+				</configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.jboss.as.plugins</groupId>
+                <artifactId>jboss-as-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>	
+</project>

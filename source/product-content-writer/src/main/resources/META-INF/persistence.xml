@@ -1,0 +1,139 @@
+<!-- 
+/*
+ * ************************************************************************************************
+ * JPA Persistence for Electrocomponents Services / eCommerce
+ * Copyright (c) Electrocomponents Plc.
+ *
+ * Author  : Ganesh Raut
+ * Created : 15 Oct 2007 at 12:37:44
+ *
+ * ************************************************************************************************
+ * Change History
+ * ************************************************************************************************
+ * Ref      * Who      * Date       * Description
+ * ************************************************************************************************
+ *          *          *            *
+ * ************************************************************************************************
+ */ -->
+<persistence version="2.0"
+	xmlns="http://java.sun.com/xml/ns/persistence" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+
+	<!-- JPU for EMEA region -->
+	<persistence-unit name="product-content-feed-europe-persistence-unit" transaction-type="JTA">
+		<description>JPA persistence for Product Content Feed Appication</description>
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<jta-data-source>java:jboss/datasource/cp-europe-xa-DS</jta-data-source>
+		<class>com.electrocomponents.model.data.linelevel.EcImageEntity</class>
+		<class>com.electrocomponents.model.data.linelevel.EcImageId</class>
+		<class>com.electrocomponents.model.data.linelevel.EcInfoObjectEntity</class>
+		<class>com.electrocomponents.model.data.linelevel.EcInfoObjectId</class>
+		<class>com.electrocomponents.model.data.linelevel.EcInfoTextEntity</class>
+		<class>com.electrocomponents.model.data.linelevel.EcInfoTextId</class>
+		<class>com.electrocomponents.model.data.linelevel.EcProductAttributesEntity</class>
+		<class>com.electrocomponents.model.data.linelevel.EcProductAttributesId</class>
+		<class>com.electrocomponents.model.data.linelevel.EcProductSearchAttributeEntity</class>
+		<class>com.electrocomponents.model.data.linelevel.EcProductSearchAttributeId</class>
+		<class>com.electrocomponents.model.data.linelevel.EcProductSymbolEntity</class>
+		<class>com.electrocomponents.model.data.linelevel.EcProductSymbolId</class>
+		<class>com.electrocomponents.model.data.linelevel.EcPublicationEntity</class>
+		<class>com.electrocomponents.model.data.linelevel.EcPublicationId</class>
+		<class>com.electrocomponents.model.data.linelevel.EcPublicationMappingEntity</class>
+		<class>com.electrocomponents.model.data.linelevel.EcPublicationMappingId</class>
+		<class>com.electrocomponents.model.data.linelevel.EcPublicationPageEntity</class>
+		<class>com.electrocomponents.model.data.linelevel.EcPublicationPageId</class>
+		<class>com.electrocomponents.model.data.linelevel.EcTableObjectEntity</class>
+		<class>com.electrocomponents.model.data.linelevel.EcTableObjectId</class>
+		<class>com.electrocomponents.model.data.product.EcProductEntity</class>
+		<class>com.electrocomponents.model.data.linelevel.EcStorePublicationEntity</class>
+		<class>com.electrocomponents.model.data.linelevel.EcStorePublicationId</class>
+
+		<mapping-file>META-INF/orm.xml</mapping-file>
+		<!-- from product-content-core -->
+		<mapping-file>META-INF/ecInfoObject-orm.xml</mapping-file>
+		<mapping-file>META-INF/ecInfoText-orm.xml</mapping-file>		
+		<mapping-file>META-INF/ecImage-orm.xml</mapping-file>		
+		<mapping-file>META-INF/ecTableObject-orm.xml</mapping-file>
+		<mapping-file>META-INF/product-orm.xml</mapping-file>
+		<mapping-file>META-INF/ecProductAttributes-orm.xml</mapping-file>
+		<mapping-file>META-INF/ecProductSearchAttribute-orm.xml</mapping-file>	
+		<mapping-file>META-INF/ecPublication-orm.xml</mapping-file>
+		<mapping-file>META-INF/ecPublicationMapping-orm.xml</mapping-file>
+		<mapping-file>META-INF/ecPublicationPage-orm.xml</mapping-file>
+		<mapping-file>META-INF/ecStorePublication-orm.xml</mapping-file>
+
+		<properties>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.Oracle10gDialect"/>
+			<property name="hibernate.id.new_generator_mappings" value="false" />		
+			<property name="hibernate.show_sql" value="false"/>
+            <property name="hibernate.format_sql" value="false"/>
+			<property name="org.hibernate.type" value="false"/>
+			<property name="hibernate.cache.use_second_level_cache" value="true"/>
+			<property name="hibernate.cache.region_prefix"   value="jpa"/>
+			<property name="hibernate.cache.use_query_cache" value="true"/>
+            <property name="jboss.entity.manager.jndi.name"  value="java:app/entitymanager/product-content-writer-entity-manager-europe"/>
+			<!-- see https://hibernate.atlassian.net/browse/HHH-9106 -->	
+			<property name="hibernate.event.merge.entity_copy_observer" value="log"/>
+		</properties>
+		
+	</persistence-unit>
+
+
+	<!-- JPU for APAC region -->
+	<persistence-unit name="product-content-feed-noneurope-persistence-unit" transaction-type="JTA">
+		<description>JPA persistence for ContinuousPublishing</description>
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<jta-data-source>java:jboss/datasource/cp-asia-xa-DS</jta-data-source>
+		<class>com.electrocomponents.model.data.linelevel.EcImageEntity</class>
+		<class>com.electrocomponents.model.data.linelevel.EcImageId</class>
+		<class>com.electrocomponents.model.data.linelevel.EcInfoObjectEntity</class>
+		<class>com.electrocomponents.model.data.linelevel.EcInfoObjectId</class>
+		<class>com.electrocomponents.model.data.linelevel.EcInfoTextEntity</class>
+		<class>com.electrocomponents.model.data.linelevel.EcInfoTextId</class>
+		<class>com.electrocomponents.model.data.linelevel.EcProductAttributesEntity</class>
+		<class>com.electrocomponents.model.data.linelevel.EcProductAttributesId</class>
+		<class>com.electrocomponents.model.data.linelevel.EcProductSearchAttributeEntity</class>
+		<class>com.electrocomponents.model.data.linelevel.EcProductSearchAttributeId</class>
+		<class>com.electrocomponents.model.data.linelevel.EcProductSymbolEntity</class>
+		<class>com.electrocomponents.model.data.linelevel.EcProductSymbolId</class>
+		<class>com.electrocomponents.model.data.linelevel.EcPublicationEntity</class>
+		<class>com.electrocomponents.model.data.linelevel.EcPublicationId</class>
+		<class>com.electrocomponents.model.data.linelevel.EcPublicationMappingEntity</class>
+		<class>com.electrocomponents.model.data.linelevel.EcPublicationMappingId</class>
+		<class>com.electrocomponents.model.data.linelevel.EcPublicationPageEntity</class>
+		<class>com.electrocomponents.model.data.linelevel.EcPublicationPageId</class>
+		<class>com.electrocomponents.model.data.linelevel.EcStorePublicationEntity</class>
+		<class>com.electrocomponents.model.data.linelevel.EcStorePublicationId</class>
+		<class>com.electrocomponents.model.data.linelevel.EcTableObjectEntity</class>
+		<class>com.electrocomponents.model.data.linelevel.EcTableObjectId</class>
+		<class>com.electrocomponents.model.data.product.EcProductEntity</class>
+
+		<mapping-file>META-INF/orm.xml</mapping-file>
+		<!-- from product-content-core -->
+		<mapping-file>META-INF/ecInfoObject-orm.xml</mapping-file>
+		<mapping-file>META-INF/ecInfoText-orm.xml</mapping-file>		
+		<mapping-file>META-INF/ecImage-orm.xml</mapping-file>		
+		<mapping-file>META-INF/ecTableObject-orm.xml</mapping-file>
+		<mapping-file>META-INF/product-orm.xml</mapping-file>
+		<mapping-file>META-INF/ecProductAttributes-orm.xml</mapping-file>		
+		<mapping-file>META-INF/ecProductSearchAttribute-orm.xml</mapping-file>		
+		<mapping-file>META-INF/ecPublication-orm.xml</mapping-file>
+		<mapping-file>META-INF/ecPublicationMapping-orm.xml</mapping-file>
+		<mapping-file>META-INF/ecPublicationPage-orm.xml</mapping-file>
+		<mapping-file>META-INF/ecStorePublication-orm.xml</mapping-file>
+
+		<properties>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.Oracle10gDialect"/>
+			<property name="hibernate.id.new_generator_mappings" value="false" />
+			<property name="hibernate.show_sql" value="false"/>
+            <property name="hibernate.format_sql" value="false"/>
+			<property name="org.hibernate.type" value="false"/>
+			<property name="hibernate.cache.use_second_level_cache" value="true"/>
+			<property name="hibernate.cache.region_prefix"   value="jpa"/>
+			<property name="hibernate.cache.use_query_cache" value="true"/>
+            <property name="jboss.entity.manager.jndi.name"  value="java:app/entitymanager/product-content-writer-entity-manager-noneurope"/>
+		</properties>
+		
+	</persistence-unit>
+</persistence>

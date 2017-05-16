@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with Liquid XML Studio 1.0.8.0 (http://www.liquid-technologies.com) -->
+<xsd:schema xmlns:party_typ="urn:electro:types/schema/business/partymanagement_v1.5"
+  targetNamespace="urn:electro:types/schema/business/partymanagement_v1.5"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:annotation>
+    <xsd:documentation>v1.0 Initial version released v1.1 Updated to include Carrier Name v1.2
+      Baselined for Adam v1.3 Baselined for Sales Orders
+v1.5 KH Large Customer. Ammendments for enhanced messaging validation failures(Order/Delivery Confirmation)</xsd:documentation>
+  </xsd:annotation>
+  <xsd:complexType name="ECommerceUserIdentification">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="party_typ:PartyIdentification">
+        <xsd:sequence>
+          <xsd:element name="ECommerce_user_identifier" type="party_typ:ECommerceUserIdentifier"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="SMSAddress">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="party_typ:PartyAddress">
+        <xsd:sequence>
+          <xsd:element name="Telephone_number" type="party_typ:TelephoneNumberString"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:simpleType name="CountryCode">
+    <xsd:restriction base="xsd:token">
+      <xsd:maxLength value="9"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="PostalAddress">
+    <xsd:annotation>
+      <xsd:documentation>Need to decide how POBox and POBox zip code should be
+        used?</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="party_typ:PartyAddress">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="Address_line_1" type="party_typ:AddressLineString"/>
+          <xsd:element minOccurs="0" name="Address_line_2" type="party_typ:AddressLineString"/>
+          <xsd:element minOccurs="0" name="Address_line_3" type="party_typ:AddressLineString"/>
+          <xsd:element minOccurs="0" name="Address_line_4" type="party_typ:AddressLineString"/>
+          <xsd:element minOccurs="0" name="Post_or_zip_code" type="party_typ:PostCodeString"/>
+          <xsd:element minOccurs="0" name="Country" type="party_typ:CountryString">
+            <xsd:annotation>
+              <xsd:documentation>V1.5 KH Large Customer. Changed to CountryString max length 50 to support switch over to mapping the country text, not the country code.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="OrganisationSummary">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="party_typ:PartySummary">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="Company_name_1" type="party_typ:PartyNameString"/>
+          <xsd:element minOccurs="0" name="Company_name_2" type="party_typ:PartyNameString"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:simpleType name="PostCodeString">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="9"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="PartyInRoleSummary">
+    <xsd:sequence>
+      <xsd:element name="Party_role" type="party_typ:PartyRoleCode"/>
+      <xsd:element name="Party_detail" type="party_typ:PartySummary"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="PartyIdentifier">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="10"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="FaxAddress">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="party_typ:PartyAddress">
+        <xsd:sequence>
+          <xsd:element name="Fax_number" type="party_typ:TelephoneNumberString"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="POBoxAddressLineString">
+    <xsd:simpleContent>
+      <xsd:extension base="party_typ:AddressLineString"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:simpleType name="AddressLineString">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="35"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="PartyNameString">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="35"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="PartySummary" abstract="true">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="Identifier" type="party_typ:PartyIdentifier"/>
+      <xsd:element minOccurs="0" name="Name" type="party_typ:PartyName"/>
+      <xsd:element minOccurs="0" name="Language" type="xsd:language"/>
+      <xsd:element minOccurs="0" name="Address_detail" type="party_typ:PartyAddressCollection"/>
+      <xsd:element minOccurs="0" name="Alternative_party_identifiers"
+        type="party_typ:PartyIdentificationCollection"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="EmailAddressString">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="241"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="VendorIdentifier">
+    <xsd:restriction base="party_typ:PartyIdentifier"/>
+  </xsd:simpleType>
+  <xsd:complexType name="TelephoneAddress">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="party_typ:PartyAddress">
+        <xsd:sequence>
+          <xsd:element name="Telephone_number" type="party_typ:TelephoneNumberString"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="PartyIdentification" abstract="true">
+    <xsd:sequence/>
+    <xsd:attribute name="usage" type="party_typ:UsageCode"/>
+  </xsd:complexType>
+  <xsd:simpleType name="PartyTitleString">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="15"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="PartyAddressCollection">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" name="Address" type="party_typ:PartyAddress"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="UserIdentifier">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="12"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="PersonSummary">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="party_typ:PartySummary">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="First_name"
+            type="party_typ:PartyNameString"/>
+          <xsd:element minOccurs="0" maxOccurs="1" name="Surname" type="party_typ:PartyNameString"/>
+          <xsd:element minOccurs="0" name="Title" type="party_typ:PartyTitleString"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:simpleType name="ECommerceUserIdentifier">
+    <xsd:restriction base="party_typ:UserIdentifier">
+      <xsd:maxLength value="9"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="VendorName">
+    <xsd:restriction base="party_typ:PartyName">
+      <xsd:maxLength value="100"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="PartyInRoleSummaryCollection">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" name="Party_in_role" type="party_typ:PartyInRoleSummary"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="EmailAddress">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="party_typ:PartyAddress">
+        <xsd:sequence>
+          <xsd:element name="Email_address" type="party_typ:EmailAddressString"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:simpleType name="PartyRoleCode">
+    <xsd:restriction base="xsd:token">
+      <xsd:maxLength value="20"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="PartyAddress" abstract="true">
+    <xsd:sequence/>
+    <xsd:attribute name="usage" type="party_typ:UsageCode"/>
+  </xsd:complexType>
+  <xsd:simpleType name="UsageCode">
+    <xsd:restriction base="xsd:token">
+      <xsd:maxLength value="20"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="PartyIdentificationCollection">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" name="Alternative_party_identifier"
+        type="party_typ:PartyIdentification"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="POBoxAddress">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="party_typ:PartyAddress">
+        <xsd:sequence>
+          <xsd:element name="Po_box_number" type="party_typ:POBoxNumberString"/>
+          <xsd:element name="Po_box_post_code" type="party_typ:PostCodeString"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:simpleType name="CarrierName">
+    <xsd:restriction base="party_typ:PartyName">
+      <xsd:maxLength value="30"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="PartyName">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="100"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="TelephoneNumberString">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="30"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="HouseNumberString">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="10"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="RegionCode">
+    <xsd:restriction base="xsd:token">
+      <xsd:maxLength value="3"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="TelephoneExtensionString">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="10"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="PartyTitleCode">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="4"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="POBoxNumberString">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="10"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="CountryString">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="50"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:schema>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:ord_typ="urn:electro:types/schema/business/common/order_v1.4"
+	xmlns:jop="urn:electro:service/messages/schema/application/jop_v1.1"
+    xmlns:paym="urn:electro:service/messages/schema/business/payment_v1.0" 
+    xmlns:payt="urn:electro:types/schema/business/payment_v1.1"	
+    xmlns:vatm="urn:electro:types/schema/business/vat_v1.1"    
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:electro:service/messages/schema/application/jop_v1.1">
+	<xsd:import namespace="urn:electro:types/schema/business/common/order_v1.4"
+		schemaLocation="Common_Order_Types_v1.4.xsd" />
+	<xsd:import namespace="urn:electro:types/schema/business/payment_v1.1" schemaLocation="Payment_Types_v1.1.xsd"/>
+	<xsd:import namespace="urn:electro:types/schema/business/vat_v1.1" schemaLocation="Vat_Messages_v1.1.xsd"/>
+	<xsd:annotation>
+		<xsd:documentation>v1.0 Initial version released</xsd:documentation>
+	</xsd:annotation>
+	
+	<xsd:complexType name="ExternalPaymentDetails">
+		<xsd:complexContent>
+			<xsd:extension base="ord_typ:PaymentDetails">
+				<xsd:sequence>
+					<xsd:element name="Transaction_id" type="xsd:string" />
+					<xsd:element name="Payment_provider" type="payt:PaymentProviderCode"/>
+					<xsd:element name="payment_type" type="ord_typ:PaymentMiscTypeCode" />
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+ 
+ <xsd:complexType name="PaymentProcessorDetails">
+ 			<xsd:complexContent>
+				<xsd:extension base="ord_typ:PaymentDetails">
+    				<xsd:sequence>
+         			 <xsd:element name="Payment_processor" type="jop:PaymentProcessorType" />
+   					</xsd:sequence>
+    			</xsd:extension>
+			</xsd:complexContent>
+  </xsd:complexType>
+  
+ <xsd:simpleType name="PaymentProcessorType">
+    <xsd:restriction base="xsd:string">
+	   <xsd:enumeration value="ERP" />
+      <xsd:enumeration value="ALIPAY" />
+     </xsd:restriction>
+ </xsd:simpleType>
+ 
+ 
+ <xsd:complexType name="OrderVatDetails">
+		<xsd:complexContent>
+			<xsd:extension base="vatm:VatDetails">
+			</xsd:extension>
+		</xsd:complexContent>
+</xsd:complexType>
+
+</xsd:schema>

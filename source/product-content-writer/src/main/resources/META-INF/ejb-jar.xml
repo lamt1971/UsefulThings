@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+
+<ejb-jar xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+                            http://java.sun.com/xml/ns/javaee/ejb-jar_3_1.xsd"
+	version="3.1">
+	
+	<module-name>product-content-writer</module-name>
+	
+	<enterprise-beans>
+		<session>
+			<description>
+				Stateless session bean to process messages of type
+				product
+			</description>
+			<display-name>Product Service Bean</display-name>
+			<ejb-name>ProductServiceBean</ejb-name>
+			<ejb-class>
+				com.electrocomponents.continuouspublishing.service.impl.ProductServiceBean
+			</ejb-class>
+			<session-type>Stateless</session-type>
+			<transaction-type>Container</transaction-type>
+			<env-entry>
+				<description>
+					List of product attribute values for which the entry
+					is NOT made in ec_product_attributes table. The list
+					can be either empty or can have one or multiple
+					values seperated by comma. (e.g. 7777,8888,-,n/a)
+				</description>
+				<env-entry-name>att_value_block</env-entry-name>
+				<env-entry-type>java.lang.String</env-entry-type>
+				<env-entry-value>7777,8888,-,n/a</env-entry-value>
+			</env-entry>
+		</session>
+	<message-driven>
+		<ejb-name>ContinuousPublishingMessageBean</ejb-name>
+		<ejb-class>
+			com.electrocomponents.continuouspublishing.service.impl.ContinuousPublishingMessageBean 
+		</ejb-class>
+		<messaging-type>javax.jms.MessageListener</messaging-type>
+		<transaction-type>Container</transaction-type>
+		<activation-config>
+			<activation-config-property>
+				<activation-config-property-name>destinationType</activation-config-property-name>
+				<activation-config-property-value>javax.jms.Queue</activation-config-property-value>
+			</activation-config-property>
+			<activation-config-property>
+				<activation-config-property-name>destination</activation-config-property-name>
+				<activation-config-property-value>java:jboss/jms/queue/CWPInboundQueue</activation-config-property-value>
+			</activation-config-property>
+			<activation-config-property>
+				<activation-config-property-name>maxPoolDepth</activation-config-property-name>
+				<activation-config-property-value>10</activation-config-property-value>
+			</activation-config-property>
+			<activation-config-property>
+			<activation-config-property-name>maxMessages</activation-config-property-name>
+			<activation-config-property-value>1</activation-config-property-value>
+			</activation-config-property>
+			<activation-config-property>
+				<activation-config-property-name>useJNDI</activation-config-property-name>
+				<activation-config-property-value>true</activation-config-property-value>
+			</activation-config-property>
+			<activation-config-property>
+				<activation-config-property-name>channel</activation-config-property-name>
+				<activation-config-property-value>ECOM.SVRCONN</activation-config-property-value>
+			</activation-config-property>
+			<activation-config-property>
+				<activation-config-property-name>hostName</activation-config-property-name>
+				<activation-config-property-value>${JMS.QUEUE.MANAGER.HOST}</activation-config-property-value>
+			</activation-config-property>
+			<activation-config-property>
+				<activation-config-property-name>queueManager</activation-config-property-name>
+				<activation-config-property-value>${JMS.QUEUE.MANAGER.NAME}</activation-config-property-value>
+			</activation-config-property>
+			<activation-config-property>
+				<activation-config-property-name>port</activation-config-property-name>
+				<activation-config-property-value>${JMS.QUEUE.MANAGER.PORT}</activation-config-property-value>
+			</activation-config-property>
+			<activation-config-property>
+				<activation-config-property-name>transportType</activation-config-property-name>
+				<activation-config-property-value>CLIENT</activation-config-property-value>
+			</activation-config-property>
+		</activation-config>
+		<env-entry>
+			<description> The email address/alias to which e-mail will be sent in
+				case a broken message is received. </description>
+			<env-entry-name> message_email_failure_to </env-entry-name>
+			<env-entry-type>java.lang.String</env-entry-type>
+			<env-entry-value> eCC.support@rs-components.com </env-entry-value>
+		</env-entry>
+		<env-entry>
+			<description> The email address/alias which will appear in the FROM
+				field of broken message email </description>
+			<env-entry-name> message_email_failure_from </env-entry-name>
+			<env-entry-type>java.lang.String</env-entry-type>
+			<env-entry-value> eCC.support@rs-components.com </env-entry-value>
+		</env-entry>
+	</message-driven>
+	</enterprise-beans>
+</ejb-jar>

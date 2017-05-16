@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.electrocomponents</groupId>
+	<artifactId>custom-fonts</artifactId>
+	<version>2.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+	<name>custom fonts java library</name>
+	<parent>
+		<groupId>com.electrocomponents</groupId>
+		<artifactId>commons-parent-pom</artifactId>
+		<version>2.0.0</version>
+	</parent>
+	<scm>
+		<developerConnection>scm:git:ssh://git@ecllapfapps651.ebs.ecomp.com/custom-fonts.git</developerConnection>
+		<tag>HEAD</tag>
+	</scm>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.0.2</version>
+				<configuration>
+					<archive>
+						<index>true</index>
+						<manifest>
+							<addClasspath>true</addClasspath>
+						</manifest>
+						<manifestEntries>
+							<Name>arialuni-Oblique.ttf,arialuni.ttf,DejaVuSans-Bold.ttf,DejaVuSans-BoldOblique.ttf,DejaVuSans-Oblique.ttf,DejaVuSans.ttf,Garuda-Bold.ttf,Garuda-BoldOblique.ttf,Garuda-Oblique.ttf,Garuda.ttf,MSYHBD.ttf,verdana.ttf,verdanab.ttf</Name>
+							<Content-Type>application/x-font</Content-Type>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

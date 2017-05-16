@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>scheduling-framework</artifactId>
+	<packaging>jar</packaging>
+	<name>scheduling-framework</name>
+	<version>2.0.1-SNAPSHOT</version>
+	
+	<parent>
+		<groupId>com.electrocomponents</groupId>
+		<artifactId>ejb-parent-pom</artifactId>
+		<version>2.0.0</version>
+	</parent>
+	
+	<!-- source control is used by Jenkins and the release plugin for tagging and version incrementing. We assume here
+		that the EJB module's repository uses the module's artifactId. For some modules this may need to be modified.
+		Note that the path must be [url]/[repo-name], not [url]:[repo-name] due to an issue with Gitolite and the Maven release plugin-->
+	<scm>
+		<developerConnection>scm:git:ssh://git@ecllapfapps651.ebs.ecomp.com/scheduling-framework.git</developerConnection>
+		<tag>HEAD</tag>
+	</scm>
+	
+	<dependencies>
+        <dependency>
+			<groupId>quartz</groupId>
+			<artifactId>quartz-all</artifactId>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+	
+	<build>
+		<plugins>        
+			<plugin>
+				<artifactId>maven-jar-plugin</artifactId>
+			</plugin>
+		</plugins>	
+    </build>	
+</project>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with Liquid XML Studio 1.0.8.0 (http://www.liquid-technologies.com) -->
+<xsd:schema xmlns:org_typ="urn:electro:types/schema/business/organisationstructure_v1.3"
+  xmlns:party_typ="urn:electro:types/schema/business/partymanagement_v1.5"
+  xmlns:price_typ="urn:electro:types/schema/business/pricing_v1.4"
+  xmlns:quant_typ="urn:electro:types/schema/business/common/quantity_v1.4"
+  xmlns:emsg="urn:electro:types/schema/business/common/enhancedmessaging_v1.2"
+  xmlns:so_msg="urn:electro:service/messages/schema/business/salesorder_v1.5"
+  xmlns:errors_typ="urn:electro:types/schema/business/errors_types_v1.0"
+  xmlns:ord_typ="urn:electro:types/schema/business/common/order_v1.4"
+  xmlns:aud_typ="urn:electro:types/schema/business/auditing_v1.1"
+  targetNamespace="urn:electro:service/messages/schema/business/salesorder_v1.5"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:import schemaLocation="Enhanced_messaging_Types_v1.2.xsd"
+    namespace="urn:electro:types/schema/business/common/enhancedmessaging_v1.2"/>
+  <xsd:import schemaLocation="Party_Management_Types_v1.5.xsd"
+    namespace="urn:electro:types/schema/business/partymanagement_v1.5"/>
+  <xsd:import schemaLocation="Common_Quantity_Types_v1.4.xsd"
+    namespace="urn:electro:types/schema/business/common/quantity_v1.4"/>
+  <xsd:import schemaLocation="Organisation_Structure_Types_v1.3.xsd"
+    namespace="urn:electro:types/schema/business/organisationstructure_v1.3"/>
+  <xsd:import schemaLocation="Pricing_Types_v1.4.xsd"
+    namespace="urn:electro:types/schema/business/pricing_v1.4"/>
+  <xsd:import schemaLocation="Common_Order_Types_v1.4.xsd"
+    namespace="urn:electro:types/schema/business/common/order_v1.4"/>
+  <xsd:import schemaLocation="Errors_Types_v1.0.xsd"
+    namespace="urn:electro:types/schema/business/errors_types_v1.0"/>
+  <xsd:import schemaLocation="Audit_History_Types_v1.1.xsd"
+    namespace="urn:electro:types/schema/business/auditing_v1.1"/>
+  <xsd:import namespace="urn:electro:types/schema/business/eprocpricing_v1.1"
+    schemaLocation="EProc_Pricing_Extension_Types_v1.1.xsd"/>
+  <xsd:annotation>
+    <xsd:documentation>v1.0 Initial version released
+v1.1 Aligned with v1.1 of Common Order Types
+v1.4 KH Large customer. Updated common xsd's from enhanced_messaging referenced. Line_reference reduced to 6 chars max. Additional import for EProc_Pricing_Extension_Types_v1.1 to resolve validation failure.
+v1.5 RdG Partial Shipments: Updated messaging XSD to utilise new fulfilment details element which includes an order quantity specification. Multiple fulfilment plants can now be associated with a single Order Line, corrected typos "fulfilment" vs. "fulfillment.
+</xsd:documentation>   
+  </xsd:annotation>
+  <xsd:complexType name="SalesOrderSystemError">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="errors_typ:SystemErrorType">
+        <xsd:sequence/>
+        <xsd:attribute name="msg_id"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="SalesOrderLine">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="ord_typ:OrderLine">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="EAN_number" type="ord_typ:EANNumber"/>
+          <xsd:element name="Fulfilment_details" type="ord_typ:FulfilmentSpecificationCollection"/>
+          <xsd:element minOccurs="0" name="Cost_centre" type="ord_typ:CostCentreReference"/>
+          <xsd:element minOccurs="0" name="Schedule_lines" type="so_msg:ScheduleCollection"/>
+          <xsd:element minOccurs="0" name="Expected_price_per_unit" type="price_typ:PricePerUnit"/>
+          <xsd:element minOccurs="0" name="Pricing_conditions"
+            type="price_typ:PricingConditionCollection"/>
+          <xsd:element minOccurs="0" name="Audit_history" type="aud_typ:AuditActionCollection"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="Sales_order_response" type="so_msg:SalesOrderResponse"/>
+  <xsd:complexType name="SalesOrderResponse">
+    <xsd:sequence>
+      <xsd:element name="Order_number" type="ord_typ:OrderNumber"/>
+      <xsd:element name="Sales_location" type="org_typ:Location"/>
+    </xsd:sequence>
+    <xsd:attribute name="msg_id"/>
+  </xsd:complexType>
+  <xsd:element name="Sales_order_business_error" type="so_msg:SalesOrderBusinessError"/>
+  <xsd:complexType name="Schedule">
+    <xsd:sequence>
+      <xsd:element name="Fulfilment_details" type="ord_typ:FulfilmentSpecificationCollection"/>
+      <xsd:element name="Requested_delivery_quantity" type="quant_typ:IntegerQuantityAmount"/>
+      <xsd:element name="Requested_delivery_date" type="quant_typ:DateInstant"/>
+    </xsd:sequence>
+    <xsd:attribute name="index" type="xsd:nonNegativeInteger"/>
+  </xsd:complexType>
+  <xsd:complexType name="SalesOrderRequest">
+    <xsd:sequence>
+      <xsd:element name="Sales_order" type="so_msg:SalesOrder"/>
+      <xsd:element name="Requested_by" type="party_typ:UserIdentifier"/>
+    </xsd:sequence>
+    <xsd:attribute name="msg_id" type="ord_typ:OrderMessageIdentifier"/>
+  </xsd:complexType>
+  <xsd:complexType name="SalesOrderHeader">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="ord_typ:OrderHeader">
+        <xsd:sequence>
+          <xsd:element name="Method_of_order_placement" type="ord_typ:MethodOfPlacementCode"/>
+          <xsd:element name="Sales_office" type="org_typ:SiteIdentifier"/>
+          <xsd:element name="Shipping_conditions_code" type="ord_typ:ShippingConditionsCode"/>
+          <xsd:element minOccurs="0" name="Order_reason_code" type="ord_typ:OrderReasonCode"/>
+          <xsd:element minOccurs="0" name="EAN_number" type="ord_typ:EANNumber"/>
+          <xsd:element minOccurs="0" name="Cost_centre" type="ord_typ:CostCentreReference"/>
+          <xsd:element minOccurs="0" name="Media_code" type="ord_typ:MediaCode"/>
+          <xsd:element minOccurs="0" name="Forward_order_date" type="quant_typ:DateInstant"/>
+          <xsd:element minOccurs="0" name="Trade_counter_message" type="ord_typ:TextMessageString"/>
+          <xsd:element minOccurs="0" name="Pin_authentication_result"
+            type="ord_typ:PinAuthenticationResult"/>
+          <xsd:element minOccurs="0" name="For_attention_of_message"
+            type="ord_typ:TextMessageString"/>
+          <xsd:element minOccurs="0" name="One_off_order_discount"
+            type="price_typ:ConditionRatePercentage"/>
+          <xsd:element minOccurs="0" name="Enhanced_messaging_requirements"
+            type="emsg:NotificationRequirementCollection"/>
+          <xsd:element minOccurs="0" name="Customer_specific_text"
+            type="ord_typ:CustomerSpecificText"/>
+          <xsd:element minOccurs="0" name="Pricing_conditions"
+            type="price_typ:PricingConditionCollection"/>
+          <xsd:element minOccurs="0" name="Audit_history" type="aud_typ:AuditActionCollection"/>
+          <xsd:element minOccurs="0" name="PaymentStatus" type="xsd:string"/>
+          <xsd:element minOccurs="0" name="AwaitingAccReProcessState" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="Sales_order_request" type="so_msg:SalesOrderRequest"/>
+  <xsd:complexType name="SalesOrder">
+    <xsd:sequence>
+      <xsd:element name="Header" type="so_msg:SalesOrderHeader"/>
+      <xsd:element name="Order_lines" type="so_msg:SalesOrderLineList"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="ScheduleCollection">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" name="Schedule_line" type="so_msg:Schedule"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="Sales_order_system_error" type="so_msg:SalesOrderSystemError"/>
+  <xsd:complexType name="InvalidSalesLocationBusinessError">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="so_msg:SalesOrderBusinessError">
+        <xsd:sequence>
+          <xsd:element name="Invalid_sales_location" type="org_typ:Location"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="InvalidOrderTypeAndVariantBusinessError">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="so_msg:SalesOrderBusinessError">
+        <xsd:sequence>
+          <xsd:element name="Invalid_order_type" type="ord_typ:OrderTypeCode"/>
+          <xsd:element name="Invalid_order_variant" type="ord_typ:OrderVariantCode"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="SalesOrderLineList">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" name="Order_line" type="so_msg:SalesOrderLine"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="SalesOrderBusinessError">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="errors_typ:BusinessErrorType">
+        <xsd:sequence/>
+        <xsd:attribute name="msg_id"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+</xsd:schema>

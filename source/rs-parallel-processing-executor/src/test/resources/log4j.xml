@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+  <!-- ============================== -->
+  <!-- Append messages to the console -->
+  <!-- ============================== -->
+
+    <appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
+        <param name="Target" value="System.out"/>
+        <param name="Threshold" value="DEBUG"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <!-- The default pattern: Date Priority [Category] Message\n -->
+            <param name="ConversionPattern" value="%d{ABSOLUTE} %-5p [%c{3}] %m%n"/>
+            <!-- param name="ConversionPattern" value="%d{ABSOLUTE} %-5p [%c{3}.%M] %m%n"/-->
+            <!-- <param name="ConversionPattern" value="%d{ABSOLUTE} %-5p [%.50l] %m%n"/> -->
+            <!--  <param name="ConversionPattern" value="%-5p: %m%n"/> -->
+        </layout>
+    </appender>
+
+    <appender name="OUTPUT_FILE" class="org.apache.log4j.FileAppender">
+        <param name="Threshold" value="DEBUG"/>
+        <param name="File" value="test.log"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%-5p: %m%n"/>
+        </layout>
+    </appender>
+
+
+    <!-- =========================================== 
+         Valid level values are "OFF", "ERROR", "WARN", 
+         "INFO" and "DEBUG". Don't forget to amend any
+         appenders' "Threshold" parameter value too -->
+
+    <logger name="com.electrocomponents">
+        <level value="DEBUG"/>
+    </logger>
+
+    <logger name="org.springframework">
+        <level value="WARN"/>
+    </logger>
+
+    <logger name="org.hibernate">
+        <level value="WARN"/>
+    </logger>
+
+    <!-- ======================= -->
+    <!-- Setup the Root category -->
+    <!-- ======================= -->
+    <root>
+        <level value="WARN"/>
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+</log4j:configuration>

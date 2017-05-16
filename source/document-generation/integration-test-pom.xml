@@ -1,0 +1,149 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>document-generation-integration-test</artifactId>
+	<packaging>ear</packaging>
+	<name>document-generation-integration-test</name>
+	<version>2.0.1-SNAPSHOT</version>
+
+	<parent>
+		<groupId>com.electrocomponents.assembly.ear</groupId>
+		<artifactId>ear-assembly-parent-pom</artifactId>
+		<version>2.0.0</version>
+	</parent>
+
+	<!-- Application Dependencies -->
+	<dependencies>
+		<dependency>
+			<groupId>com.electrocomponents</groupId>
+			<artifactId>domain-commons</artifactId>
+			<version>2.0.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.electrocomponents</groupId>
+			<artifactId>ejb-service-locator</artifactId>
+			<version>2.0.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.electrocomponents</groupId>
+			<artifactId>notifications</artifactId>
+			<version>2.0.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.electrocomponents</groupId>
+			<artifactId>object-serialiser</artifactId>
+			<version>2.0.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.electrocomponents</groupId>
+			<artifactId>web-labels</artifactId>
+			<version>2.0.0</version>
+			<type>ejb</type>
+		</dependency>
+
+		<dependency>
+			<groupId>com.electrocomponents</groupId>
+			<artifactId>document-generation</artifactId>
+			<version>2.0.0</version>
+			<type>ejb</type>
+		</dependency>
+
+		<dependency>
+			<groupId>com.electrocomponents</groupId>
+			<artifactId>java-object-cache</artifactId>
+			<version>2.0.0</version>
+			<type>ejb</type>
+		</dependency>
+
+		<dependency>
+			<groupId>com.electrocomponents</groupId>
+			<artifactId>system-configuration</artifactId>
+			<version>2.0.0</version>
+			<type>ejb</type>
+		</dependency>
+
+		<dependency>
+			<groupId>com.electrocomponents</groupId>
+			<artifactId>runtime-error-recorder</artifactId>
+			<version>2.0.0</version>
+			<type>ejb</type>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.xmlgraphics</groupId>
+			<artifactId>fop</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sourceforge.jexcelapi</groupId>
+			<artifactId>jxl</artifactId>
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-ear-plugin</artifactId>
+				<version>${maven.ear.plugin.version}</version>
+				<configuration>
+					<applicationName>document-generation</applicationName>
+					<finalName>${artifactId}</finalName>
+					<modules>
+						<!--Add All the JAR Modules -->
+						<jarModule>
+							<groupId>com.electrocomponents</groupId>
+							<artifactId>object-serialiser</artifactId>
+							<bundleDir>/</bundleDir>
+							<includeInApplicationXml>true</includeInApplicationXml>
+						</jarModule>
+						
+						<!--Add All the EJB Modules -->
+						<ejbModule>
+							<groupId>com.electrocomponents</groupId>
+							<artifactId>runtime-error-recorder</artifactId>
+						</ejbModule>
+						
+						<ejbModule>
+							<groupId>com.electrocomponents</groupId>
+							<artifactId>document-generation</artifactId>
+						</ejbModule>
+						
+						<ejbModule>
+							<groupId>com.electrocomponents</groupId>
+							<artifactId>web-labels</artifactId>
+						</ejbModule>
+						
+						<ejbModule>
+							<groupId>com.electrocomponents</groupId>
+							<artifactId>java-object-cache</artifactId>
+						</ejbModule>
+						
+						<ejbModule>
+							<groupId>com.electrocomponents</groupId>
+							<artifactId>system-configuration</artifactId>
+						</ejbModule>
+					</modules>
+					<archive>
+						<manifestEntries>
+							<Dependencies>org.joda.time,org.apache.commons.lang,com.electrocomponents.application.properties</Dependencies>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

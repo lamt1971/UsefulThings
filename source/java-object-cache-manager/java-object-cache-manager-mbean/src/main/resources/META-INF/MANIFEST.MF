@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Archiver-Version: Plexus Archiver
+Created-By: Apache Maven
+Built-By: C0952298
+Build-Jdk: 1.8.0_92
+Dependencies: org.infinispan export
+

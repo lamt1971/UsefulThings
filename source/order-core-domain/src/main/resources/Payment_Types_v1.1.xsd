@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:ord_typ="urn:electro:types/schema/business/common/order_v1.4" xmlns:party_typ="urn:electro:types/schema/business/partymanagement_v1.5" xmlns:payt="urn:electro:types/schema/business/payment_v1.1" xmlns:quant_typ="urn:electro:types/schema/business/common/quantity_v1.4" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:electro:types/schema/business/payment_v1.1">
+  <xsd:import namespace="urn:electro:types/schema/business/common/order_v1.4" schemaLocation="Common_Order_Types_v1.4.xsd"/>
+  <xsd:import namespace="urn:electro:types/schema/business/common/quantity_v1.4" schemaLocation="Common_Quantity_Types_v1.4.xsd"/>
+  <xsd:import namespace="urn:electro:types/schema/business/partymanagement_v1.5" schemaLocation="Party_Management_Types_v1.5.xsd"/>
+  <xsd:complexType name="PaymentPartyIdentification">
+    <xsd:annotation>
+      <xsd:documentation>Assumed that we may need to use external party identifiers as well as existing RS party identifiers</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="party_typ:PartyIdentification">
+        <xsd:sequence>
+          <xsd:element name="Payment_party_id" type="payt:PaymentPartyIdentifier"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:simpleType name="PaymentProviderCode">
+    <xsd:restriction base="xsd:token">
+      <xsd:maxLength value="20"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="NotificationTypeCode">
+    <xsd:restriction base="xsd:token">
+      <xsd:maxLength value="20"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="PaymentTypeCode">
+    <xsd:restriction base="xsd:token">
+      <xsd:maxLength value="20"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="PaymentPartyIdentifier">
+    <xsd:restriction base="xsd:token">
+      <xsd:maxLength value="30"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="OrderDescriptionString">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="400"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="PaymentTransactionDetail">
+    <xsd:sequence>
+      <xsd:element name="Payment_transaction_id"/>
+      <xsd:element name="Payment_type" type="payt:PaymentTypeCode"/>
+      <xsd:element name="Payment_transaction_creation" type="xsd:dateTime"/>
+      <xsd:element name="Payment_amount" type="quant_typ:Money"/>
+      <xsd:element minOccurs="0" name="Payment_parties" type="party_typ:PartyInRoleSummaryCollection"/>
+      <xsd:element minOccurs="0" name="Payment_transaction_completion" type="xsd:dateTime"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="OrderPaymentTransactionDetail">
+    <xsd:annotation>
+      <xsd:documentation>Assumed that Order number will be used as Partner Transaction identifier but this may change in future so this is created as a extension point.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="payt:PaymentTransactionDetail">
+        <xsd:sequence>
+          <xsd:element name="Order_number" type="ord_typ:OrderNumber"/>
+          <xsd:element minOccurs="0" name="Order_description" type="payt:OrderDescriptionString"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+</xsd:schema>

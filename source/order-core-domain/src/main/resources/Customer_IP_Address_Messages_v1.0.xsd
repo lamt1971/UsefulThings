@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema  xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:electro:types/schema/business/customer_ip_address_v1.0">
+	<xsd:simpleType name="CustomerIpAddress">
+		<xsd:restriction base="xsd:string">
+			  <xsd:maxLength value="20"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+</xsd:schema>

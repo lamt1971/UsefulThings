@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:ord_typ="urn:electro:types/schema/business/common/order_v1.4" xmlns:party_typ="urn:electro:types/schema/business/partymanagement_v1.5"  xmlns:quant_typ="urn:electro:types/schema/business/common/quantity_v1.4" xmlns:vatm="urn:electro:types/schema/business/vat_v1.1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:electro:types/schema/business/vat_v1.1">
+  <xsd:import namespace="urn:electro:types/schema/business/common/quantity_v1.4" schemaLocation="Common_Quantity_Types_v1.4.xsd"/>
+  <xsd:import namespace="urn:electro:types/schema/business/partymanagement_v1.5" schemaLocation="Party_Management_Types_v1.5.xsd"/>
+  
+      
+  <xsd:complexType name="VatDetails" >
+         <xsd:complexContent mixed="false">
+				<xsd:extension base="vatm:VatRegistrationAddressDetails"> 
+				<xsd:sequence>
+					 <xsd:element minOccurs="0" name="VatMessage_RegistrationInformationDetails" type="vatm:VatRegistrationInformationDetails" />
+			        <xsd:element minOccurs="0" name="VatMessage_TaxNumberDetails" type="vatm:VatTaxNumberDetails" />
+		        </xsd:sequence>
+		        </xsd:extension>
+         </xsd:complexContent>        
+  </xsd:complexType>
+  
+  <xsd:complexType name="VatRegistrationAddressDetails" >
+         <xsd:complexContent mixed="false">
+				<xsd:extension base="party_typ:PostalAddress">
+			     <xsd:sequence>
+			        <xsd:element minOccurs="0" name="Company_name_1" type="party_typ:PartyNameString" />
+				    <xsd:element minOccurs="0" name="Company_name_2" type="party_typ:PartyNameString" />  
+				 </xsd:sequence>
+                </xsd:extension>                
+         </xsd:complexContent>
+  </xsd:complexType>
+  
+  <xsd:complexType name="VatRegistrationInformationDetails" >
+        <xsd:sequence>
+      <xsd:element name="GTS_tax_number">
+		  <xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					  <xsd:maxLength value="20"/>
+				</xsd:restriction>
+		   </xsd:simpleType>		
+	   </xsd:element>
+	   <xsd:element name="Bank_name">
+		  <xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					  <xsd:maxLength value="60"/>
+				</xsd:restriction>
+		   </xsd:simpleType>		
+	   </xsd:element>
+	    <xsd:element name="Bank_account_number">
+		  <xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					  <xsd:maxLength value="38"/>
+				</xsd:restriction>
+		   </xsd:simpleType>		
+	   </xsd:element>
+	   <xsd:element name="Telephone_number" minOccurs="1" maxOccurs="1"
+            type="party_typ:TelephoneNumberString"/>
+	    <xsd:element name="Vat_customer" type="xsd:boolean"/>		
+	    <xsd:element name="Use_delivery_address" type="xsd:boolean"/>
+	 </xsd:sequence>
+
+  </xsd:complexType>
+  
+  
+  <xsd:complexType name="VatTaxNumberDetails" >
+     <xsd:sequence>
+      <xsd:element name="GUI_number">
+		  <xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					  <xsd:maxLength value="16"/>
+				</xsd:restriction>
+		   </xsd:simpleType>		
+	   </xsd:element>
+	   <xsd:element name="VAT_registration_number">
+		  <xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					  <xsd:maxLength value="28"/>
+				</xsd:restriction>
+		   </xsd:simpleType>		
+	   </xsd:element>
+	   <!-- Added as part of a Small Change 16152 for CZ.-->
+	   <xsd:element name="Regd_company_id">
+		  <xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					  <xsd:maxLength value="11"/>
+				</xsd:restriction>
+		   </xsd:simpleType>		
+	   </xsd:element>
+	 </xsd:sequence>
+  </xsd:complexType>
+ 
+</xsd:schema>

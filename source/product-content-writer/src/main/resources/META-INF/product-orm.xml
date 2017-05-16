@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+/*
+ * ************************************************************************************************
+ * Copyright (c) Electrocomponents Plc.
+ *
+ * Author  : Ganesh Raut
+ * Created : 11 Oct 2007 at 15:09:55
+ *
+ * ************************************************************************************************
+ * Change History
+ * ************************************************************************************************
+ * Ref      * Who      * Date       * Description
+ * ************************************************************************************************
+ *          *          *            *
+ * ************************************************************************************************
+ */
+    JPA entity mappings configuration file
+	TDOD - Put comments on the queries to explain their purpose.
+-->
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+			     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				 xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm,
+									 http://java.sun.com/xml/ns/persistence/orm_2_0.xsd" version="2.0">
+
+    <named-query name="EcProductEntity.findByGroupNumberAndSite">
+        <query>
+            SELECT p
+            FROM EcProductEntity p
+            WHERE  p.productNumber = :productNumber
+            AND p.site = :site
+            ORDER BY p.articleAdamNbr
+        </query>
+    </named-query>
+   
+     <sql-result-set-mapping name="EcMinimumProductInfoTOMapping">
+         <column-result name="productNumber"/>
+      </sql-result-set-mapping>
+     
+     <sql-result-set-mapping name="EcMinimumProductsInfoTOMapping">
+         <column-result name="productNumber"/>
+         <column-result name="extendedRangeProductNumber"/>
+      </sql-result-set-mapping>
+      
+      <sql-result-set-mapping name="EcMinimumProductBySitesInfoTOMapping">
+         <column-result name="productNumber"/>
+      </sql-result-set-mapping>
+               
+</entity-mappings>

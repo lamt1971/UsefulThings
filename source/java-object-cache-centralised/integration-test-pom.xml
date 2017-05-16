@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>java-object-cache-centralised-integration-test</artifactId>
+	<name>java-object-cache-centralised-integration-test</name>
+	<version>2.0.1-SNAPSHOT</version>
+	<packaging>ear</packaging>
+
+	<parent>
+		<groupId>com.electrocomponents.assembly.ear</groupId>
+		<artifactId>ear-assembly-parent-pom</artifactId>
+		<version>2.0.0</version>
+	</parent>
+
+	<!-- module-specific dependencies not inherited from parent POM: -->
+	<dependencies>		
+		<dependency>
+			<groupId>com.electrocomponents</groupId>
+			<artifactId>java-object-cache</artifactId>
+			<version>2.0.0</version>
+			<type>ejb</type>
+		</dependency>
+		<dependency>
+			<groupId>com.electrocomponents</groupId>
+			<artifactId>java-object-cache-centralised</artifactId>
+			<version>2.0.0</version>
+			<type>ejb</type>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.electrocomponents</groupId>
+			<artifactId>runtime-error-recorder</artifactId>
+			<version>2.0.0</version>
+			<type>ejb</type>
+		</dependency>
+		
+		
+	
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-ear-plugin</artifactId>
+				<version>${maven.ear.plugin.version}</version>				
+				<configuration>
+					<finalName>${project.artifactId}</finalName>
+					<applicationName>java-object-cache-centralised</applicationName>
+					<modules>
+						<ejbModule>
+							<groupId>com.electrocomponents</groupId>
+							<artifactId>java-object-cache</artifactId>
+						</ejbModule>
+					</modules>
+					<archive>
+      					<manifestEntries>
+         					<Dependencies>org.joda.time,org.apache.commons.lang,oracle.ojdbc14,org.jboss.remote-naming</Dependencies>
+      					</manifestEntries>
+  					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

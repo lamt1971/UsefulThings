@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>message-relay-internal-integration-test</artifactId>
+	<packaging>ear</packaging>
+	<name>message-relay-internal-integration-test</name>
+	<version>2.0.1-SNAPSHOT</version>
+
+	<parent>
+		<groupId>com.electrocomponents.assembly.ear</groupId>
+		<artifactId>ear-assembly-parent-pom</artifactId>
+		<version>2.0.0</version>
+	</parent>
+
+	<!-- EJB module-specific dependencies not inherited from parent POM: -->
+	<dependencies>
+
+		<dependency>
+			<groupId>com.electrocomponents</groupId>
+			<artifactId>domain-commons</artifactId>
+			<version>2.0.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.6</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.electrocomponents</groupId>
+			<artifactId>exceptions-commons</artifactId>
+			<version>2.0.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.electrocomponents</groupId>
+			<artifactId>persistence-commons</artifactId>
+			<version>2.0.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.electrocomponents</groupId>
+			<artifactId>java-object-cache</artifactId>
+			<version>2.0.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.electrocomponents</groupId>
+			<artifactId>runtime-error-recorder</artifactId>
+			<version>2.0.0</version>
+			<type>ejb</type>
+		</dependency>
+
+		<dependency>
+			<groupId>com.electrocomponents</groupId>
+			<artifactId>eproc-customer-configuration</artifactId>
+			<version>2.0.0</version>
+			<type>ejb</type>
+		</dependency>
+
+		<dependency>
+			<groupId>com.electrocomponents</groupId>
+			<artifactId>message-sender-facade</artifactId>
+			<version>2.0.0</version>
+			<type>ejb</type>
+		</dependency>
+
+		<dependency>
+			<groupId>com.electrocomponents</groupId>
+			<artifactId>notifications</artifactId>
+			<version>2.0.0</version>
+			<type>ejb</type>
+		</dependency>
+
+		<dependency>
+			<groupId>com.electrocomponents</groupId>
+			<artifactId>message-relay-core</artifactId>
+			<version>2.0.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.electrocomponents</groupId>
+			<artifactId>message-relay-internal</artifactId>
+			<version>2.0.0</version>
+			<type>ejb</type>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-ear-plugin</artifactId>
+				<version>${maven.ear.plugin.version}</version>
+				<configuration>
+					<applicationName>message-relay-internal</applicationName>
+					<finalName>${artifactId}</finalName>
+					<modules>
+						<ejbModule>
+							<groupId>com.electrocomponents</groupId>
+							<artifactId>message-relay-internal</artifactId>
+						</ejbModule>
+
+					</modules>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

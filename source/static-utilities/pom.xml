@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>static-utilities</artifactId>
+	<packaging>jar</packaging>
+	<name>static-utilities</name>
+	<version>2.0.1-SNAPSHOT</version>
+	<description>This module contains only static utility methods used system-wide which have no other obvious home.
+	It should have no internal dependencies</description>
+	
+	<parent>
+		<groupId>com.electrocomponents</groupId>
+		<artifactId>commons-parent-pom</artifactId>
+		<version>2.0.0</version>
+	</parent>
+	
+	<!-- source control is used by Jenkins and the release plugin for tagging and version incrementing. We assume here
+		that the lib module's repository uses the library's artifactId. For some modules this may need to be modified.
+		Note that the path must be [url]/[repo-name], not [url]:[repo-name] due to an issue with Gitolite and the Maven release plugin-->
+	<scm>
+		<developerConnection>scm:git:ssh://git@ecllapfapps651.ebs.ecomp.com/static-utilities.git</developerConnection>
+		<tag>HEAD</tag>
+	</scm>
+	
+	<dependencies>
+		<dependency>
+			<artifactId>exceptions-commons</artifactId>
+			<groupId>com.electrocomponents</groupId>
+			<version>2.0.0</version>
+		</dependency>
+		<dependency>
+			<artifactId>domain-commons</artifactId>
+			<groupId>com.electrocomponents</groupId>
+			<version>2.0.0</version>
+		</dependency>	
+		<dependency>
+			<artifactId>mail</artifactId>
+			<groupId>javax.mail</groupId>
+		</dependency>	
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>	
+	</dependencies>
+	<build>
+		<plugins>        
+			<plugin>
+			  <artifactId>maven-resources-plugin</artifactId>
+			</plugin>           
+		
+			<!-- JBoss AS plugin to deploy the application, should this module require it (note the version and config is inherited
+			from the parent POM's pluginManagement element) -->
+			<plugin>
+				<groupId>org.jboss.as.plugins</groupId>
+				<artifactId>jboss-as-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+    </build>	
+</project>

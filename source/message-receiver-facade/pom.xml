@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>message-receiver-facade</artifactId>
+	<packaging>ejb</packaging>
+	<name>message-receiver-facade</name>
+	<version>2.0.1-SNAPSHOT</version>
+	
+	<parent>
+		<groupId>com.electrocomponents</groupId>
+		<artifactId>ejb-parent-pom</artifactId>
+		<version>2.0.0</version>
+	</parent>
+	
+	<!-- source control is used by Jenkins and the release plugin for tagging and version incrementing. We assume here
+		that the EJB module's repository uses the module's artifactId. For some modules this may need to be modified.
+		Note that the path must be [url]/[repo-name], not [url]:[repo-name] due to an issue with Gitolite and the Maven release plugin-->
+	<scm>
+		<developerConnection>scm:git:ssh://git@ecllapfapps651.ebs.ecomp.com/message-receiver-facade.git</developerConnection>
+		<tag>HEAD</tag>
+	</scm>
+	
+	<!-- EJB module-specific dependencies not inherited from parent POM: -->
+<dependencies>
+
+		<dependency> 
+ 			<groupId>com.electrocomponents</groupId> 
+ 			<artifactId>domain-commons</artifactId> 
+ 			<version>2.0.0</version>
+		</dependency>
+
+		<dependency> 
+ 			<groupId>com.electrocomponents</groupId> 
+ 			<artifactId>message-audit</artifactId> 
+ 			<version>2.0.0</version>
+ 			<scope>provided</scope>
+		</dependency>
+		
+		<dependency> 
+				    <groupId>org.jboss.spec.javax.jms</groupId>
+				    <artifactId>jboss-jms-api_1.1_spec</artifactId>
+				    <scope>provided</scope>
+		</dependency>
+</dependencies>
+	
+	<build>
+		<plugins>        
+			<plugin>
+			  <artifactId>maven-resources-plugin</artifactId>
+			</plugin>           
+		
+			<!-- JBoss AS plugin to deploy the application, should this module require it (note the version and config is inherited
+			from the parent POM's pluginManagement element) -->
+			<plugin>
+				<groupId>org.jboss.as.plugins</groupId>
+				<artifactId>jboss-as-maven-plugin</artifactId>
+			</plugin>
+			
+			<!-- EJB client generation, should this module require it (note the version and config are inherited from the
+			parent POM's pluginManagement element) -->
+			<plugin>
+				<artifactId>maven-ejb-plugin</artifactId>
+			</plugin>
+		</plugins>
+    </build>	
+</project>

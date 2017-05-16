@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>message-relay-core</artifactId>
+	<packaging>ejb</packaging>
+	<name>message-relay-core</name>
+	<version>2.0.3-SNAPSHOT</version>
+	
+	<parent>
+		<groupId>com.electrocomponents</groupId>
+		<artifactId>ejb-parent-pom</artifactId>
+		<version>2.0.0</version>
+	</parent>
+	
+	<!-- source control is used by Jenkins and the release plugin for tagging and version incrementing. We assume here
+		that the EJB module's repository uses the module's artifactId. For some modules this may need to be modified.
+		Note that the path must be [url]/[repo-name], not [url]:[repo-name] due to an issue with Gitolite and the Maven release plugin-->
+	<scm>
+		<developerConnection>scm:git:ssh://git@ecllapfapps651.ebs.ecomp.com/message-relay-core.git</developerConnection>
+		<tag>HEAD</tag>
+	</scm>
+	
+	<!-- EJB module-specific dependencies not inherited from parent POM: -->
+	<dependencies>
+		<dependency>
+			<groupId>org.jboss.as</groupId>
+			<artifactId>jboss-as-jms-client-bom</artifactId>
+			<type>pom</type>
+		    <scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.hornetq</groupId>
+					<artifactId>hornetq-commons</artifactId>				
+				</exclusion>			
+				<exclusion>
+					<groupId>org.hornetq</groupId>
+					<artifactId>hornetq-core-client</artifactId>				
+				</exclusion>			
+				<exclusion>
+					<groupId>org.hornetq</groupId>
+					<artifactId>hornetq-jms-client</artifactId>				
+				</exclusion>			
+				<exclusion>
+					<groupId>org.hornetq</groupId>
+					<artifactId>hornetq-journal</artifactId>				
+				</exclusion>			
+			</exclusions>
+		</dependency>
+
+        <dependency> 
+		    <groupId>org.jboss.spec.javax.jms</groupId>
+		    <artifactId>jboss-jms-api_1.1_spec</artifactId>
+		    <scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+		    <groupId>javax.mail</groupId>
+		    <artifactId>mail</artifactId>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.apache.httpcomponents</groupId>
+		    <artifactId>httpmime</artifactId>
+		    <scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.apache.httpcomponents</groupId>
+		    <artifactId>httpclient</artifactId>
+		    <scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+		    <groupId>commons-io</groupId>
+		    <artifactId>commons-io</artifactId>
+		</dependency>
+		
+		<dependency> 
+ 			<groupId>com.electrocomponents</groupId> 
+ 			<artifactId>exceptions-commons</artifactId> 
+ 			<version>2.0.0</version>
+		</dependency>
+		
+		<dependency> 
+ 			<groupId>com.electrocomponents</groupId> 
+ 			<artifactId>static-utilities</artifactId> 
+ 			<version>2.0.0</version>
+		</dependency>
+		
+		<dependency> 
+ 			<groupId>com.electrocomponents</groupId> 
+ 			<artifactId>web-labels</artifactId> 
+ 			<version>2.0.0</version>
+ 			<scope>provided</scope>
+		</dependency>	
+		
+		<dependency> 
+ 			<groupId>com.electrocomponents</groupId> 
+ 			<artifactId>system-configuration</artifactId> 
+ 			<version>2.0.0</version>
+ 			<scope>provided</scope>
+		</dependency>
+		
+		<dependency> 
+ 			<groupId>com.electrocomponents</groupId> 
+ 			<artifactId>eproc-customer-configuration</artifactId> 
+ 			<version>2.0.0</version>
+ 			<scope>provided</scope>
+		</dependency>
+		
+		<dependency> 
+ 			<groupId>com.electrocomponents</groupId> 
+ 			<artifactId>eproc-notifications-configuration</artifactId> 
+ 			<version>2.0.0</version>
+ 			<scope>provided</scope>
+		</dependency>
+		
+		<dependency> 
+ 			<groupId>com.electrocomponents</groupId> 
+ 			<artifactId>eproc-electronic-invoice-configuration</artifactId> 
+ 			<version>2.0.0</version>
+ 			<scope>provided</scope>
+		</dependency>
+		
+		<dependency> 
+ 			<groupId>com.electrocomponents</groupId> 
+ 			<artifactId>notifications</artifactId> 
+ 			<version>2.0.0</version>
+ 			<scope>provided</scope>
+		</dependency>
+		
+		<dependency> 
+ 			<groupId>com.electrocomponents</groupId> 
+ 			<artifactId>message-sender-facade</artifactId> 
+ 			<version>2.0.0</version>
+ 			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>1.10.19</version>
+			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.jboss.as</groupId>
+			<artifactId>jboss-as-ejb-client-bom</artifactId>
+			<type>pom</type>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.as</groupId>
+			<artifactId>jboss-as-jms-client-bom</artifactId>
+			<type>pom</type>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	
+	<build>
+		<plugins>        
+			<plugin>
+			  <artifactId>maven-resources-plugin</artifactId>
+			</plugin>           
+		
+			<!-- JBoss AS plugin to deploy the application, should this module require it (note the version and config is inherited
+			from the parent POM's pluginManagement element) -->
+			<plugin>
+				<groupId>org.jboss.as.plugins</groupId>
+				<artifactId>jboss-as-maven-plugin</artifactId>
+			</plugin>
+			
+			<!-- EJB client generation, should this module require it (note the version and config are inherited from the
+			parent POM's pluginManagement element) -->
+			<plugin>
+				<artifactId>maven-ejb-plugin</artifactId>
+				<configuration>
+					<!-- this is false by default, set to generated additional jar artifact for EJB client -->
+					<generateClient>true</generateClient>
+					<clientIncludes>
+						<!-- this will exclude all files and directories -->
+						<clientInclude>com/electrocomponents/service/notifications/sync/interfaces/**</clientInclude>
+						<clientInclude>com/electrocomponents/service/notifications/sync/impl/locator/**</clientInclude>
+					</clientIncludes>
+					
+					<archive>
+      					<manifestEntries>
+         					<Dependencies>org.jboss.remote-naming,com.electrocomponents.application.properties</Dependencies>
+      					</manifestEntries>
+  					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+    </build>	
+</project>

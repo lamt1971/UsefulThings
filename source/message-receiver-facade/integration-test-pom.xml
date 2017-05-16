@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>message-receiver-facade-test</artifactId>
+	<packaging>ear</packaging>
+	<name>message-receiver-facade</name>
+	<version>2.0.1-SNAPSHOT</version>
+
+	<parent>
+		<groupId>com.electrocomponents.assembly.ear</groupId>
+		<artifactId>ear-assembly-parent-pom</artifactId>
+		<version>2.0.0</version>
+	</parent>
+
+	<!-- Application Dependencies -->
+	<dependencies>
+
+		<dependency>
+			<groupId>com.electrocomponents</groupId>
+			<artifactId>domain-commons</artifactId>
+			<version>2.0.0</version>
+			<type>ejb</type>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.electrocomponents</groupId>
+			<artifactId>message-audit</artifactId>
+			<version>2.0.0</version>
+			<type>ejb</type>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.electrocomponents</groupId>
+			<artifactId>message-receiver-facade</artifactId>
+			<version>2.0.0</version>
+			<type>ejb</type>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-ear-plugin</artifactId>
+				<version>${maven.ear.plugin.version}</version>
+				<configuration>
+					<finalName>${artifactId}</finalName>
+					<modules>
+						<ejbModule>
+							<groupId>com.electrocomponents</groupId>
+							<artifactId>domain-commons</artifactId>
+						</ejbModule>
+						<ejbModule>
+							<groupId>com.electrocomponents</groupId>
+							<artifactId>message-audit</artifactId>
+						</ejbModule>
+						<ejbModule>
+							<groupId>com.electrocomponents</groupId>
+							<artifactId>message-receiver-facade</artifactId>
+						</ejbModule>
+					</modules>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

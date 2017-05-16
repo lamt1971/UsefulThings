@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:comp_typ="urn:electro:types/schema/business/productmanagement/compliance_v1.4"
+  xmlns:quant_typ="urn:electro:types/schema/business/common/quantity_v1.4"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="urn:electro:types/schema/business/productmanagement/compliance_v1.4" version="2">
+  <xsd:import namespace="urn:electro:types/schema/business/common/quantity_v1.4"
+    schemaLocation="Common_Quantity_Types_v1.4.xsd"> </xsd:import>
+  <xsd:annotation>
+    <xsd:documentation>v1.0 Initial version released
+V1.1 Updated to use version 1.1 of Common_Quantity_Types 
+v1.2 Baselined for Adam
+v1.3 Baselined in line with Common Quantity types v1.3
+v1.4 KH Large Customer. New type introduced</xsd:documentation>
+  </xsd:annotation>
+  <xsd:complexType name="ProductComplianceSummary">
+    <xsd:sequence>
+      <xsd:element name="Is_hazardous" type="xsd:boolean"/>
+      <xsd:element minOccurs="0" name="Is_large_product" type="xsd:boolean"/>
+      <xsd:element name="Rohs_status" type="comp_typ:ComplianceStatusType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="Hazardous_Material_Profile">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="2"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="ProductComplianceDetail">
+    <xsd:complexContent>
+      <xsd:extension base="comp_typ:ProductComplianceSummary">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="Haz_mat_profile"
+            type="comp_typ:Hazardous_Material_Profile"/>
+          <xsd:element minOccurs="0" name="Is_environ_relevant" type="xsd:boolean"/>
+          <xsd:element minOccurs="0" name="IATA_net_quantity" type="quant_typ:DecimalUnitQuantity"/>
+          <xsd:element minOccurs="0" name="ADR_net_quantity" type="quant_typ:DecimalUnitQuantity"/>
+          <xsd:element minOccurs="0" name="IMDG_net_quantity" type="quant_typ:DecimalUnitQuantity"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:simpleType name="ComplianceStatusType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="COMPLIANT"/>
+      <xsd:enumeration value="NON_COMPLIANT"/>
+      <xsd:enumeration value="EXEMPT"/>
+      <xsd:enumeration value="NOT_APPLICABLE"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="SpecialStorageIndicator">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="2"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="RegionalProductCompliance">
+    <xsd:sequence>
+      <xsd:element name="Special_storage_indicator" type="comp_typ:SpecialStorageIndicator"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="HazardousGoodsIndicator">
+    <xsd:restriction base="xsd:token">
+      <xsd:maxLength value="1"/>
+      <xsd:enumeration value="Y"/>
+      <xsd:enumeration value="N"/>
+      <xsd:minLength value="1"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:schema>

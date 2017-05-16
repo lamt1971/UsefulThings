@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:quant_typ="urn:electro:types/schema/business/common/quantity_v1.4"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="urn:electro:types/schema/business/common/quantity_v1.4">
+  <xsd:annotation>
+    <xsd:documentation>v1.0 Initial version released
+V1.1 Updated to align Units of Measure will WPC agreed ISO UOM
+v1.2 Duration  quantity types added, Baselined for Adam
+v1.3 Date period types added for Sales Orders
+v1.3 Resolving errors within WPC (Adam) message definitions (new DurationOptionalPeriod, PhysicalUomAmountV2,IntegerUnitQuantityEmptyValueAndOptionalUOM, VolumeQuantityV2 types)
+v1.4 KH Large Customer. Ammendments for enhanced messaging validation failures to match up the field size to the idoc definiton. New types introduced also.</xsd:documentation>
+  </xsd:annotation>
+  <xsd:simpleType name="NonNegativeIntegerQuantityAmount">
+    <xsd:restriction base="quant_typ:IntegerQuantityAmount">
+      <xsd:minInclusive value="0"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="WeightUnitOfMeasure">
+    <xsd:restriction base="quant_typ:UnitOfMeasureCode">
+      <xsd:enumeration value="KG"/>
+      <xsd:enumeration value="G"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="DecimalUomAmount">
+    <xsd:restriction base="quant_typ:NonNegativeDecimalAmount">
+      <xsd:totalDigits value="17"/>
+      <xsd:fractionDigits value="3"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="Duration">
+    <xsd:simpleContent>
+      <xsd:extension base="quant_typ:IntegerQuantityAmount">
+        <xsd:attribute name="period" type="quant_typ:DurationPeriod" use="required"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="DurationOptionalPeriod">
+    <xsd:simpleContent>
+      <xsd:extension base="quant_typ:IntegerQuantityAmount">
+        <xsd:attribute name="period" type="quant_typ:DurationPeriod"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="DimensionQuantity">
+    <xsd:simpleContent>
+      <xsd:extension base="quant_typ:PhysicalUomAmount">
+        <xsd:attribute name="uom" type="quant_typ:DimensionUnitOfMeasure" use="required"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:simpleType name="DateInstant">
+    <xsd:annotation>
+      <xsd:documentation>Added in v1.3
+</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:date"/>
+  </xsd:simpleType>
+  <xsd:simpleType name="PhysicalUomAmount">
+    <xsd:restriction base="quant_typ:DecimalUomAmount">
+      <xsd:totalDigits value="17"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="PhysicalUomAmountV2">
+    <xsd:restriction base="quant_typ:NonNegativeDecimalAmount">
+      <xsd:totalDigits value="13"/>
+      <xsd:fractionDigits value="10"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="CurrencyCode">
+    <xsd:restriction base="xsd:token">
+      <xsd:length value="3"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="LanguageSpecificDescriptionString">
+    <xsd:simpleContent>
+      <xsd:extension base="quant_typ:DescriptionString">
+        <xsd:attribute name="lang" type="xsd:language" use="required"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:simpleType name="DurationPeriod">
+    <xsd:restriction base="xsd:token">
+      <xsd:enumeration value="WEEKS"/>
+      <xsd:enumeration value="DAYS"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="DecimalUnitQuantity">
+    <xsd:simpleContent>
+      <xsd:extension base="quant_typ:DecimalUomAmount">
+        <xsd:attribute name="uom" type="quant_typ:UnitOfMeasure" use="required"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:simpleType name="PositiveIntegerQuantityAmount">
+    <xsd:restriction base="quant_typ:NonNegativeIntegerQuantityAmount">
+      <xsd:minExclusive value="0"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="VolumeUnitOfMeasure">
+    <xsd:restriction base="quant_typ:UnitOfMeasureCode">
+      <xsd:enumeration value="L"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="DescriptionStringLength32">
+    <xsd:restriction base="quant_typ:DescriptionString">
+      <xsd:maxLength value="32"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="UnitOfMeasure">
+    <xsd:restriction base="quant_typ:UnitOfMeasureCode">
+      <xsd:enumeration value="BG"/>
+      <xsd:enumeration value="BX"/>
+      <xsd:enumeration value="EA"/>
+      <xsd:enumeration value="FOT"/>
+      <xsd:enumeration value="GRM"/>
+      <xsd:enumeration value="KT"/>
+      <xsd:enumeration value="LO"/>
+      <xsd:enumeration value="LTR"/>
+      <xsd:enumeration value="MTR"/>
+      <xsd:enumeration value="PK"/>
+      <xsd:enumeration value="PR"/>
+      <xsd:enumeration value="PU"/>
+      <xsd:enumeration value="RL"/>
+      <xsd:enumeration value="SET"/>
+      <xsd:enumeration value="TU"/>
+      <xsd:enumeration value="TA"/>
+      <xsd:enumeration value="PCE"/>
+      <xsd:enumeration value="PU"/>
+      <xsd:enumeration value="G"/>
+      <xsd:enumeration value="KG"/>
+      <xsd:enumeration value="M"/>
+      <xsd:enumeration value="MM"/>
+      <xsd:enumeration value="L"/>
+      <xsd:enumeration value="ZCL"/>
+      <xsd:enumeration value="RO"/>
+      <xsd:enumeration value="PF"/>
+      <xsd:enumeration value="MIL"/>
+      <xsd:enumeration value="ZCR"/>
+      <xsd:enumeration value="ZHE"/>
+      <xsd:enumeration value="ZKE"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="IntegerUomAmount">
+    <xsd:restriction base="quant_typ:NonNegativeIntegerQuantityAmount"/>
+  </xsd:simpleType>
+  <xsd:simpleType name="CountryCode">
+    <xsd:restriction base="xsd:token">
+      <xsd:length value="2"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="IntegerUnitQuantity">
+    <xsd:simpleContent>
+      <xsd:extension base="quant_typ:IntegerUomAmount">
+        <xsd:attribute name="uom" type="quant_typ:UnitOfMeasure" use="optional">
+          <xsd:annotation>
+            <xsd:documentation>v1.4 KH Large Customer. Set uom to optional.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="IntegerUnitQuantityEmptyValueAndOptionalUOM">
+    <xsd:annotation>
+      <xsd:documentation>Supports having an empty value and no UOM attribute (in-line with WPC product management messages see in Production) - attempting to resolve XSD validation issues</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="quant_typ:IntegerQuantityAmountAllowEmpty">
+        <xsd:attribute name="uom" type="quant_typ:UnitOfMeasure"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="TimePeriod">
+    <xsd:sequence/>
+    <xsd:attribute name="period_start" type="quant_typ:TimeInstant" use="required"/>
+    <xsd:attribute name="period_end" type="quant_typ:TimeInstant"/>
+  </xsd:complexType>
+  <xsd:simpleType name="Country">
+    <xsd:restriction base="quant_typ:CountryCode"/>
+  </xsd:simpleType>
+  <xsd:simpleType name="Currency">
+    <xsd:restriction base="quant_typ:CurrencyCode"/>
+  </xsd:simpleType>
+  <xsd:complexType name="WeightQuantity">
+    <xsd:simpleContent>
+      <xsd:extension base="quant_typ:PhysicalUomAmount">
+        <xsd:attribute name="uom" type="quant_typ:WeightUnitOfMeasure" use="required"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="WeightQuantityV2">
+    <xsd:simpleContent>
+      <xsd:extension base="quant_typ:PhysicalUomAmountV2">
+        <xsd:attribute name="uom" type="quant_typ:WeightUnitOfMeasure" use="required"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="DatePeriod">
+    <xsd:sequence/>
+    <xsd:attribute name="period_start" type="quant_typ:DateInstant"/>
+    <xsd:attribute name="period_end" type="quant_typ:DateInstant"/>
+  </xsd:complexType>
+  <xsd:simpleType name="DimensionUnitOfMeasure">
+    <xsd:restriction base="quant_typ:UnitOfMeasureCode">
+      <xsd:enumeration value="M"/>
+      <xsd:enumeration value="MM"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="IntegerQuantityAmount">
+    <xsd:restriction base="xsd:integer">
+      <xsd:pattern value="[\-+]?[0-9]+"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="IntegerQuantityAmountAllowEmpty">
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="[\-+]?[0-9]*"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="DecimalQuantityAmount">
+    <xsd:restriction base="xsd:decimal"/>
+  </xsd:simpleType>
+  <xsd:complexType name="Money">
+    <xsd:simpleContent>
+      <xsd:extension base="quant_typ:MoneyAmount">
+        <xsd:attribute name="currency" type="quant_typ:CurrencyCode" use="required"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="VolumeQuantity">
+    <xsd:simpleContent>
+      <xsd:extension base="quant_typ:PhysicalUomAmount">
+        <xsd:attribute name="uom" type="quant_typ:VolumeUnitOfMeasure" use="required"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="VolumeQuantityV2">
+    <xsd:simpleContent>
+      <xsd:extension base="quant_typ:PhysicalUomAmountV2">
+        <xsd:attribute name="uom" type="quant_typ:VolumeUnitOfMeasure" use="required"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:simpleType name="NonNegativeDecimalAmount">
+    <xsd:restriction base="quant_typ:DecimalQuantityAmount">
+      <xsd:minInclusive value="0"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="MoneyAmount">
+    <xsd:restriction base="quant_typ:DecimalQuantityAmount">
+      <xsd:totalDigits value="18"/>
+      <xsd:fractionDigits value="3"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="TimeInstant">
+    <xsd:restriction base="xsd:dateTime"/>
+  </xsd:simpleType>
+  <xsd:simpleType name="DescriptionStringLength25">
+    <xsd:restriction base="quant_typ:DescriptionString">
+      <xsd:maxLength value="25"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="UnitOfMeasureCode">
+    <xsd:restriction base="xsd:token">
+      <xsd:maxLength value="3"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="DescriptionString">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="90"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="SimpleAmountWithUomCode">
+    <xsd:simpleContent>
+      <xsd:extension base="quant_typ:PhysicalUomAmount">
+        <xsd:attribute name="uom" type="quant_typ:UnitOfMeasureCode" use="required"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+</xsd:schema>

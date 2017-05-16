@@ -1,0 +1,4 @@
+RS	CPN	Manufacturer	MPN	Description 1	Quantity
+444444	My Part 01  Belling Lee	 L1737/A/JRED	 Silver plated	600
+222222	My Part 01	Bopla	3227000	 IP65 light	20
+1287589	My Part 04	 Duracell	15025970	Duracell special N	10

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>java-object-cache-integration-test</artifactId>
+	<name>java-object-cache</name>
+	<version>2.0.1-SNAPSHOT</version>
+	<packaging>ear</packaging>
+
+	<parent>
+		<groupId>com.electrocomponents.assembly.ear</groupId>
+		<artifactId>ear-assembly-parent-pom</artifactId>
+		<version>2.0.0</version>
+	</parent>
+
+	<!-- module-specific dependencies not inherited from parent POM: -->
+	<dependencies>		
+		<dependency>
+			<groupId>com.electrocomponents</groupId>
+			<artifactId>java-object-cache</artifactId>
+			<version>2.0.0</version>
+			<type>ejb</type>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.electrocomponents</groupId>
+			<artifactId>runtime-error-recorder</artifactId>
+			<version>2.0.0</version>
+			<type>ejb</type>
+		</dependency>
+		
+		
+	
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+			</plugin>
+
+			<!-- EJB client generation, should this module require it (note the version 
+				and config are inherited from the parent POM's pluginManagement element) -->
+			<plugin>
+				<artifactId>maven-ejb-plugin</artifactId>
+			</plugin>
+
+			<!-- SAR packaging plugin. -->
+			<plugin>
+				<groupId>net.sf.maven-sar</groupId>
+				<artifactId>maven-sar-plugin</artifactId>
+			</plugin>
+
+			<!-- jaxws plugin - to generate JAXB/JAXWS objects from wsdls. -->
+			<plugin>
+				<groupId>org.jvnet.jax-ws-commons</groupId>
+				<artifactId>jaxws-maven-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-ear-plugin</artifactId>
+				<version>${maven.ear.plugin.version}</version>				
+				<configuration>
+					<finalName>${project.artifactId}</finalName>
+					<applicationName>java-object-cache</applicationName>
+					<modules>
+						<ejbModule>
+							<groupId>com.electrocomponents</groupId>
+							<artifactId>java-object-cache</artifactId>
+						</ejbModule>
+					</modules>
+					<archive>
+      					<manifestEntries>
+         					<Dependencies>org.joda.time,org.apache.commons.lang,com.oracle.jdbc.ojdbc7,org.jboss.remote-naming</Dependencies>
+      					</manifestEntries>
+  					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

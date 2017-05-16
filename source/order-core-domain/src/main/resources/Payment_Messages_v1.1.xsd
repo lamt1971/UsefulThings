@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:org_typ="urn:electro:types/schema/business/organisationstructure_v1.3" xmlns:paym="urn:electro:service/messages/schema/business/payment_v1.1" xmlns:payt="urn:electro:types/schema/business/payment_v1.1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:electro:service/messages/schema/business/payment_v1.1">
+  <xsd:import namespace="urn:electro:types/schema/business/payment_v1.1" schemaLocation="Payment_Types_v1.1.xsd"/>
+  <xsd:import namespace="urn:electro:types/schema/business/organisationstructure_v1.3" schemaLocation="Organisation_Structure_Types_v1.3.xsd"/>
+  <xsd:complexType name="PaymentNotification">
+    <xsd:annotation>
+      <xsd:documentation>Expected notification types should include PAYMENT_STATUS_CHANGE and PAYMENT_AMOUNT_CHANGE</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="Sales_location" type="org_typ:Location"/>
+      <xsd:element name="Payment_details" type="payt:PaymentTransactionDetail"/>
+      <xsd:element name="Payment_provider" type="payt:PaymentProviderCode"/>
+      <xsd:element name="Notification_type" type="payt:NotificationTypeCode"/>
+      <xsd:element name="Notification_datetime" type="xsd:dateTime"/>
+    </xsd:sequence>
+    <xsd:attribute name="msg_id"/>
+  </xsd:complexType>
+  <xsd:element name="Payment_notification" type="paym:PaymentNotification"/>
+</xsd:schema>

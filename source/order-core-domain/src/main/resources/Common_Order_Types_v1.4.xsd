@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with Liquid XML Studio 1.0.8.0 (http://www.liquid-technologies.com) -->
+<xsd:schema xmlns:ord_typ="urn:electro:types/schema/business/common/order_v1.4"
+  xmlns:party_typ="urn:electro:types/schema/business/partymanagement_v1.5"
+  xmlns:org_typ="urn:electro:types/schema/business/organisationstructure_v1.3"
+  xmlns:prodman_typ="urn:electro:types/schema/business/productmanagement_v1.7"
+  xmlns:quant_typ="urn:electro:types/schema/business/common/quantity_v1.4"
+  xmlns:vatm="urn:electro:types/schema/business/vat_v1.1"
+  xmlns:cipam="urn:electro:types/schema/business/customer_ip_address_v1.0"
+  targetNamespace="urn:electro:types/schema/business/common/order_v1.4"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:import schemaLocation="Common_Quantity_Types_v1.4.xsd"
+    namespace="urn:electro:types/schema/business/common/quantity_v1.4"/>
+  <xsd:import schemaLocation="Product_Management_Types_v1.7.xsd"
+    namespace="urn:electro:types/schema/business/productmanagement_v1.7"/>
+  <xsd:import schemaLocation="Party_Management_Types_v1.5.xsd"
+    namespace="urn:electro:types/schema/business/partymanagement_v1.5"/>
+  <xsd:import schemaLocation="Organisation_Structure_Types_v1.3.xsd"
+    namespace="urn:electro:types/schema/business/organisationstructure_v1.3"/>
+  <xsd:import namespace="urn:electro:types/schema/business/vat_v1.1" schemaLocation="Vat_Messages_v1.1.xsd"/>   
+  <xsd:import namespace="urn:electro:types/schema/business/customer_ip_address_v1.0" schemaLocation="Customer_IP_Address_Messages_v1.0.xsd"/>
+  <xsd:annotation>
+    <xsd:documentation>v1.0 Initial version released 
+v1.1 Quotation Reference, Product Lifecycle added 
+v1.3 KH Large Customer. Ammendments for enhanced messaging. Updated to use productmanagement_v1.6
+v1.4 RdG Partial Shipments: Added a Fulfilment specification collection to allow multiple fulfilment sites to be specified, corrected typos "fulfilment" vs. "fulfillment"
+    </xsd:documentation>
+  </xsd:annotation>
+  <xsd:simpleType name="PaymentCardIssueNumber">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="10"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="EANNumber">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="13"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="OrderReasonCode">
+    <xsd:restriction base="xsd:token">
+      <xsd:maxLength value="3"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="TextMessageString">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="70"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="PaymentCardHolderString">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="40"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="ProductIdentificationCollection">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" name="Alternative_product_identifier"
+        type="ord_typ:ProductIdentification"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="PaymentCardTypeCode">
+    <xsd:restriction base="xsd:token">
+      <xsd:maxLength value="4"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="PaymentCardDetails">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="ord_typ:PaymentDetails">
+        <xsd:sequence>
+          <xsd:element name="Card_number" type="ord_typ:PaymentCardNumber"/>
+          <xsd:element name="Card_type" type="ord_typ:PaymentCardTypeCode"/>
+          <xsd:element name="Card_validity_period" type="ord_typ:ValidityDatePeriod"/>
+          <xsd:element minOccurs="0" name="Card_holder_name" type="ord_typ:PaymentCardHolderString"/>
+          <xsd:element minOccurs="0" name="Card_security_code"
+            type="ord_typ:PaymentCardSecurityCode"/>
+          <xsd:element minOccurs="0" name="Card_issue_number" type="ord_typ:PaymentCardIssueNumber"
+          />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="OrderReference" abstract="true">
+    <xsd:sequence/>
+  </xsd:complexType>
+  <xsd:simpleType name="PaymentCardNumber">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="25"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="MethodOfPlacementCode">
+    <xsd:restriction base="xsd:token">
+      <xsd:maxLength value="2"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="InvoiceNumber">
+    <xsd:restriction base="ord_typ:OrderNumber"/>
+  </xsd:simpleType>
+  <xsd:simpleType name="CustomerOrderReference">
+    <xsd:restriction base="ord_typ:ExternalReferenceString"/>
+  </xsd:simpleType>
+  <xsd:complexType name="PaymentDetails" abstract="true">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="Customer_payment_reference"
+        type="ord_typ:CustomerPaymentReference"/>
+      <xsd:element minOccurs="0" name="Customer_payment_cost_centre"
+        type="ord_typ:CostCentreReference"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="OrderReferenceCollection">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" name="Associated_order_reference"
+        type="ord_typ:OrderReference"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="FulfilmentSpecification">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="Fulfilment_plant" type="org_typ:SiteIdentifier"/>
+      <xsd:element name="Fulfilment_method" type="ord_typ:FulfilmentMethodType"/>
+      <xsd:element name="Quantity" type="quant_typ:IntegerUnitQuantity"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="FulfilmentSpecificationCollection">
+    <xsd:sequence>
+      <xsd:element name="FulfilmentSpecification" type="ord_typ:FulfilmentSpecification"
+        maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="CustomerPaymentReference">
+    <xsd:restriction base="ord_typ:ExternalReferenceString"/>
+  </xsd:simpleType>
+  <xsd:simpleType name="ExternalReferenceString">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="35"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="PaymentCardSecurityCode">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="6"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="OrderNumber">
+    <xsd:restriction base="xsd:token">
+      <xsd:maxLength value="35"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="SalesDocumentNumber">
+    <xsd:restriction base="xsd:token">
+      <xsd:maxLength value="10"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="PinAuthenticationResult">
+    <xsd:restriction base="xsd:token">
+      <xsd:enumeration value="PASSED"/>
+      <xsd:enumeration value="FAILED"/>
+      <xsd:enumeration value="IGNORED"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="ProductIdentification" abstract="true">
+    <xsd:sequence/>
+  </xsd:complexType>
+  <xsd:complexType name="QuotationDocumentReference">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="ord_typ:OrderReference">
+        <xsd:sequence>
+          <xsd:element name="Quotation_number" type="ord_typ:OrderNumber"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="InvoiceDocumentReference">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="ord_typ:OrderReference">
+        <xsd:sequence>
+          <xsd:element name="Invoice_number" type="ord_typ:InvoiceNumber"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:simpleType name="FulfilmentMethodCode">
+    <xsd:restriction base="xsd:token">
+      <xsd:maxLength value="5"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="MediaCode">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="35"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="ManufacturerProductIdentification">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="ord_typ:ProductIdentification">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="Manufacturer_id" type="party_typ:PartyIdentifier"/>
+          <xsd:element name="Manufacturer_name" type="prodman_typ:ManufacturerName"/>
+          <xsd:element name="Manufacturer_part_number" type="prodman_typ:ManufacturerPartNumber"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="CustomerProductIdentificaton">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="ord_typ:ProductIdentification">
+        <xsd:sequence>
+          <xsd:element name="Customer_part_number" type="ord_typ:CustomerProductReference"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:simpleType name="CostCentreReference">
+    <xsd:restriction base="ord_typ:ExternalReferenceString"/>
+  </xsd:simpleType>
+  <xsd:simpleType name="OrderMessageIdentifier">
+    <xsd:restriction base="xsd:token">
+      <xsd:maxLength value="20"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="OrderLineReference">
+    <xsd:restriction base="xsd:token">
+      <xsd:maxLength value="6"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="CustomerProductReference">
+    <xsd:restriction base="ord_typ:ExternalReferenceString"/>
+  </xsd:simpleType>
+  <xsd:simpleType name="OrderVariantCode">
+    <xsd:restriction base="xsd:token">
+      <xsd:maxLength value="10"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="OrderLine">
+    <xsd:sequence>
+      <xsd:element name="Product_number" type="prodman_typ:ProductIdentifier"/>
+      <xsd:element name="Quantity" type="quant_typ:IntegerUnitQuantity"/>
+      <xsd:element minOccurs="0" name="Line_reference" type="ord_typ:OrderLineReference"/>
+      <xsd:element minOccurs="0" name="Alternative_product_identifiers"
+        type="ord_typ:ProductIdentificationCollection"/>
+    </xsd:sequence>
+    <xsd:attribute name="index" type="xsd:nonNegativeInteger"/>
+  </xsd:complexType>
+  <xsd:simpleType name="ShippingConditionsCode">
+    <xsd:restriction base="xsd:token">
+      <xsd:maxLength value="2"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="OrderHeader">
+    <xsd:sequence>
+      <xsd:element name="Order_type" type="ord_typ:OrderTypeCode"/>
+      <xsd:element name="Order_variant" type="ord_typ:OrderVariantCode"/>
+      <xsd:element name="Order_number" type="ord_typ:OrderNumber"/>
+      <xsd:element name="Sales_location" type="org_typ:Location"/>
+      <xsd:element name="Order_date" type="quant_typ:DateInstant"/>
+      <xsd:element name="Currency" type="quant_typ:CurrencyCode"/>
+      <xsd:element minOccurs="0" name="Validity_period" type="ord_typ:ValidityDatePeriod"/>
+      <xsd:element minOccurs="0" name="Payment_details" type="ord_typ:PaymentDetails"/>
+      <xsd:element minOccurs="0" name="External_payment_details" type="ord_typ:PaymentDetails" />
+      <xsd:element minOccurs="0" name="Associated_order_references" type="ord_typ:OrderReferenceCollection"/>
+      <xsd:element minOccurs="0" name="Order_party_roles" type="party_typ:PartyInRoleSummaryCollection"/>
+      <xsd:element minOccurs="0" name="Payment_processor_detail" type="ord_typ:PaymentDetails" />
+      <xsd:element minOccurs="0" name="Order_vat_details" type="vatm:VatDetails" />
+      <xsd:element minOccurs="0" name="Customer_ip_address" type="cipam:CustomerIpAddress"  />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="FulfilmentMethodType">
+    <xsd:restriction base="ord_typ:FulfilmentMethodCode">
+      <xsd:enumeration value="STD"/>
+      <xsd:enumeration value="XDOCK"/>
+      <xsd:enumeration value="FT"/>
+      <xsd:enumeration value="XBF"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="LifecycleAwareProductIdentification">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="ord_typ:ProductIdentification">
+        <xsd:sequence>
+          <xsd:element name="Offer_status" type="prodman_typ:OfferLifecycleStatus"/>
+          <xsd:element minOccurs="0" name="Stock_policy" type="prodman_typ:StockPolicyCode"/>
+          <xsd:element name="Product_number" type="prodman_typ:ProductIdentifier"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:simpleType name="OrderTypeCode">
+    <xsd:restriction base="xsd:token">
+      <xsd:maxLength value="10"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="ValidityDatePeriod">
+    <xsd:sequence/>
+    <xsd:attribute name="period_start" type="quant_typ:DateInstant"/>
+    <xsd:attribute name="period_end" type="quant_typ:DateInstant"/>
+  </xsd:complexType>
+  <xsd:complexType name="CustomerOrderDocumentReference">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="ord_typ:OrderReference">
+        <xsd:sequence>
+          <xsd:element name="Customer_order_number" type="ord_typ:CustomerOrderReference"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="OrderDocumentReference">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="ord_typ:OrderReference">
+        <xsd:sequence>
+          <xsd:element name="Order_number" type="ord_typ:OrderNumber"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="OrderNameReference">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="ord_typ:OrderReference">
+        <xsd:sequence>
+          <xsd:element name="Order_name" type="ord_typ:OrderName"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="BlanketOrderReference">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="ord_typ:OrderReference">
+        <xsd:sequence>
+          <xsd:element name="Blanket_order_number" type="ord_typ:OrderNumber"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ExternalOrderId">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="ord_typ:OrderReference">
+        <xsd:sequence>
+          <xsd:element name="External_order_id" type="ord_typ:OrderNumber"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="PaymentMiscDetails">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="ord_typ:PaymentDetails">
+        <xsd:sequence>
+          <xsd:element name="payment_type" type="ord_typ:PaymentMiscTypeCode"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="DeliveryNoteReference">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="ord_typ:OrderReference">
+        <xsd:sequence>
+          <xsd:element name="Delivery_note_number" type="ord_typ:SalesDocumentNumber"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:simpleType name="PaymentMiscTypeCode">
+    <xsd:restriction base="xsd:token">
+      <xsd:maxLength value="4"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="CustomerSpecificText">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="128"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="OrderName">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="128"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:schema>

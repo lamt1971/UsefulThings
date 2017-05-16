@@ -1,0 +1,67 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<packaging>ear</packaging>
+	<artifactId>rs-parallel-processing-executor-integration-test</artifactId>
+	<name>rs-parallel-processing-executor-integration-test</name>
+	<version>2.0.1-SNAPSHOT</version>
+
+	<parent>
+		<groupId>com.electrocomponents.assembly.ear</groupId>
+		<artifactId>ear-assembly-parent-pom</artifactId>
+		<version>2.0.0</version>
+	</parent>	
+	
+	<!-- Application Dependencies - each of the war modules and each of the ejb-jar modules. Note that 
+	ejb-jar modules should *not* be included in other ejb-jar modules as transitive dependencies. -->
+	<dependencies>
+		<!-- the runtime error recorder is declared as an ejb interceptor in all our ejb projects, so is a common dependency -->
+		<dependency>
+			<groupId>com.electrocomponents</groupId>
+			<artifactId>runtime-error-recorder</artifactId>
+			<version>2.0.0</version>
+			<type>ejb</type>
+		</dependency>
+		<dependency>
+			<groupId>com.electrocomponents</groupId>
+			<artifactId>rs-parallel-processing-executor</artifactId>
+			<version>2.0.0</version>
+            <type>ejb</type>
+		</dependency>
+		<dependency>
+			<groupId>com.electrocomponents</groupId>
+			<artifactId>java-object-cache</artifactId>
+			<version>2.0.0</version>
+            <type>ejb</type>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-ear-plugin</artifactId>
+				<configuration>
+				<applicationName>rs-parallel-processing-executor</applicationName>
+					<modules>
+						<!-- all transitive dependencies of the ejb jars will be automatically added to /lib -->
+						
+						<!--Add All the EJB Modules. They will be loaded in the order in which they appear here -->						
+						<ejbModule>
+							<groupId>com.electrocomponents</groupId>
+							<artifactId>runtime-error-recorder</artifactId>
+						</ejbModule>					
+						<ejbModule>
+							<groupId>com.electrocomponents</groupId>
+							<artifactId>rs-parallel-processing-executor</artifactId>
+						</ejbModule>									
+					</modules>
+					<archive>
+      					<manifestEntries>
+         					<Dependencies>org.joda.time,org.apache.commons.lang</Dependencies>
+      					</manifestEntries>
+  					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

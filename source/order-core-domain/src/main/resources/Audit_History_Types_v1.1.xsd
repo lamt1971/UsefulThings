@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:aud_typ="urn:electro:types/schema/business/auditing_v1.1" xmlns:party_typ="urn:electro:types/schema/business/partymanagement_v1.5" xmlns:quant_typ="urn:electro:types/schema/business/common/quantity_v1.4" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:electro:types/schema/business/auditing_v1.1">
+  <xsd:import namespace="urn:electro:types/schema/business/common/quantity_v1.4" schemaLocation="Common_Quantity_Types_v1.4.xsd"/>
+  <xsd:import schemaLocation="Party_Management_Types_v1.5.xsd" namespace="urn:electro:types/schema/business/partymanagement_v1.5" />
+  <xsd:annotation>
+    <xsd:documentation>v1.0 Initial version released</xsd:documentation>
+  </xsd:annotation>
+  <xsd:complexType name="AuditActionCollection">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" name="Audit_action" type="aud_typ:AuditAction"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="AuditAction">
+    <xsd:sequence>
+      <xsd:element name="Action_type" type="aud_typ:ActionTypeCode"/>
+      <xsd:element name="Action_date" type="quant_typ:DateInstant"/>
+	<xsd:element minOccurs="0" name="Action_time" type="quant_typ:TimeInstant"/>
+	<xsd:element minOccurs="0" name="Action_party" type="party_typ:UserIdentifier"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="ActionTypeCode">
+    <xsd:restriction base="xsd:token">
+      <xsd:maxLength value="20"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="QuantityChangeAuditAction">
+    <xsd:complexContent>
+      <xsd:extension base="aud_typ:AuditAction">
+        <xsd:sequence>
+          <xsd:element name="Old_quantity" type="quant_typ:IntegerUnitQuantity"/>
+          <xsd:element minOccurs="0" name="New_quantity" type="quant_typ:IntegerUnitQuantity"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="CustomerQuantityChangeAuditAction">
+    <xsd:complexContent>
+      <xsd:extension base="aud_typ:AuditAction">
+        <xsd:sequence>
+          <xsd:element name="Old_quantity" type="aud_typ:IntegerCustomerUnitQuantity"/>
+          <xsd:element minOccurs="0" name="New_quantity" type="quant_typ:IntegerUnitQuantity"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ApprovalAuditAction">
+    <xsd:complexContent>
+      <xsd:extension base="aud_typ:AuditAction">
+        <xsd:sequence>
+          <xsd:element name="Approval_status" type="aud_typ:ApprovalStatusString"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="IntegerCustomerUnitQuantity">
+    <xsd:simpleContent>
+      <xsd:extension base="quant_typ:IntegerUomAmount">
+        <xsd:attribute name="customer_uom" type="aud_typ:CustomerUnitOfMeasureString" />
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:simpleType name="CustomerUnitOfMeasureString">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="20"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="ApprovalStatusString">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="20"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:schema>

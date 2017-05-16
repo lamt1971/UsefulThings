@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:emsg="urn:electro:types/schema/business/common/enhancedmessaging_v1.2"
+  xmlns:party_typ="urn:electro:types/schema/business/partymanagement_v1.5"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="urn:electro:types/schema/business/common/enhancedmessaging_v1.2">
+  <xsd:import namespace="urn:electro:types/schema/business/partymanagement_v1.5"
+    schemaLocation="Party_Management_Types_v1.5.xsd"/>
+  <xsd:annotation>
+    <xsd:documentation>v1.0 Initial version released
+v1.2 KH Large Customer. Updated to reference Party_Management_Types_v1.5</xsd:documentation>
+  </xsd:annotation>
+  <xsd:complexType abstract="true" name="NotificationRequirement">
+    <xsd:sequence/>
+  </xsd:complexType>
+  <xsd:complexType name="NotificationRequirementCollection">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" name="Notification_requirement"
+        type="emsg:NotificationRequirement"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="ProcessCode">
+    <xsd:restriction base="xsd:token">
+      <xsd:maxLength value="10"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="ProcessChannelPartyNotificationRequirement">
+    <xsd:complexContent>
+      <xsd:extension base="emsg:NotificationRequirement">
+        <xsd:sequence>
+          <xsd:element name="Process" type="emsg:ProcessCode"/>
+          <xsd:element name="Notification_party_role" type="party_typ:PartyRoleCode"/>
+          <xsd:element name="Notification_channel" type="emsg:ChannelCode"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:simpleType name="ChannelCode">
+    <xsd:restriction base="xsd:token">
+      <xsd:maxLength value="5"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="NotificationRequestCollection">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" name="Notification_request" type="emsg:NotificationRequest"
+      />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="ChannelPartyNotificationRequest">
+    <xsd:complexContent>
+      <xsd:extension base="emsg:NotificationRequest">
+        <xsd:sequence>
+          <xsd:element name="Notification_party_role" type="party_typ:PartyRoleCode"/>
+          <xsd:element name="Notification_channel" type="emsg:ChannelCode"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="NotificationRequest">
+    <xsd:sequence/>
+  </xsd:complexType>
+</xsd:schema>

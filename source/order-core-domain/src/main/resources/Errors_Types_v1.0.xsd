@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:errors_typ="urn:electro:types/schema/business/errors_types_v1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:electro:types/schema/business/errors_types_v1.0">
+  <xsd:complexType name="SystemErrorType">
+    <xsd:complexContent>
+      <xsd:extension base="errors_typ:BaseErrorType">
+        <xsd:sequence>
+          <xsd:element name="applicationError" type="xsd:string"/>
+          <xsd:element name="trace" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="BusinessErrorType">
+    <xsd:complexContent>
+      <xsd:extension base="errors_typ:BaseErrorType">
+        <xsd:sequence/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="BaseErrorType">
+    <xsd:sequence>
+      <xsd:element name="faultName" type="xsd:string"/>
+      <xsd:element name="message" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

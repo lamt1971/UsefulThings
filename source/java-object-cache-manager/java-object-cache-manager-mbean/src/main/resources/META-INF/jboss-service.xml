@@ -1,0 +1,5 @@
+<server xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="urn:jboss:service:7.0 jboss-service_7_0.xsd"
+        xmlns="urn:jboss:service:7.0">
+ <mbean code="com.electrocomponents.service.objectcache.impl.CacheManager" name="jimtest:type=JimsCacheManager"/>
+</server>

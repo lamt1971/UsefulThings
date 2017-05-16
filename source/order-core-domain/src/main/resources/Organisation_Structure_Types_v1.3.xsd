@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:org_typ="urn:electro:types/schema/business/organisationstructure_v1.3" 
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+            targetNamespace="urn:electro:types/schema/business/organisationstructure_v1.3">
+  <xsd:annotation>
+    <xsd:documentation>v1.0 Initial version released
+v1.1 Aligned with Adam Location types
+v1.2 Baselined for Adam</xsd:documentation>
+  </xsd:annotation>
+  <xsd:simpleType name="LocationType">
+    <xsd:restriction base="xsd:token">
+      <xsd:enumeration value="SALES_ENTITY"/>
+      <xsd:enumeration value="DISTRIBUTOR"/>
+      <xsd:enumeration value="LOCALE"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="SiteIdentifier">
+    <xsd:restriction base="xsd:token">
+      <xsd:length value="4"/>
+      <xsd:pattern value="[a-z|A-Z]{2}[0-9]{2}"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="BuyerIdentifier">
+    <xsd:restriction base="xsd:token">
+      <xsd:length value="3"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="Location">
+    <xsd:simpleContent>
+      <xsd:extension base="org_typ:LocationCode">
+        <xsd:attribute name="type" type="org_typ:LocationType" use="required"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:simpleType name="OperatingCompanyIdentifier">
+    <xsd:restriction base="xsd:token">
+      <xsd:length value="2"/>
+      <xsd:pattern value="[a-z|A-Z]{2}"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="PricingGroupIdentifier">
+    <xsd:restriction base="xsd:token">
+      <xsd:length value="2"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="RegionIdentifier">
+    <xsd:restriction base="xsd:token">
+      <xsd:enumeration value="EUROPE"/>
+      <xsd:enumeration value="ASIA"/>
+      <xsd:enumeration value="US"/>
+      <xsd:enumeration value="APAC"/>
+      <xsd:enumeration value="IDN"/>
+      <xsd:enumeration value="ROW"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="TradeCounterIdentifier">
+    <xsd:restriction base="org_typ:SiteIdentifier"/>
+  </xsd:simpleType>
+  <xsd:complexType name="ProductSalesType">
+    <xsd:sequence/>
+  </xsd:complexType>
+  <xsd:simpleType name="PurchasingOrganisationIdentifier">
+    <xsd:restriction base="xsd:token">
+      <xsd:length value="4"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="LocationCode">
+    <xsd:restriction base="xsd:token">
+      <xsd:maxLength value="4"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="DistributionCenterIdentifier">
+    <xsd:restriction base="org_typ:SiteIdentifier"/>
+  </xsd:simpleType>
+  <xsd:simpleType name="SalesOrganisationIdentifier">
+    <xsd:restriction base="xsd:token">
+      <xsd:length value="4"/>
+      <xsd:pattern value="[a-z|A-Z]{2}[0-9]{2}"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:schema>

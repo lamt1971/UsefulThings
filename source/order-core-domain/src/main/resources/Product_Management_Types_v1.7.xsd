@@ -1,0 +1,504 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:comp_typ="urn:electro:types/schema/business/productmanagement/compliance_v1.4"
+  xmlns:org_typ="urn:electro:types/schema/business/organisationstructure_v1.3"
+  xmlns:party_typ="urn:electro:types/schema/business/partymanagement_v1.5"
+  xmlns:prodman_typ="urn:electro:types/schema/business/productmanagement_v1.7"
+  xmlns:quant_typ="urn:electro:types/schema/business/common/quantity_v1.4"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="urn:electro:types/schema/business/productmanagement_v1.7">
+  <xsd:import namespace="urn:electro:types/schema/business/common/quantity_v1.4"
+    schemaLocation="Common_Quantity_Types_v1.4.xsd"> </xsd:import>
+  <xsd:import namespace="urn:electro:types/schema/business/partymanagement_v1.5"
+    schemaLocation="Party_Management_Types_v1.5.xsd"> </xsd:import>
+  <xsd:import namespace="urn:electro:types/schema/business/productmanagement/compliance_v1.4"
+    schemaLocation="Product_Compliance_Types_v1.4.xsd"> </xsd:import>
+  <xsd:import namespace="urn:electro:types/schema/business/organisationstructure_v1.3"
+    schemaLocation="Organisation_Structure_Types_v1.3.xsd"/>
+  <xsd:annotation>
+    <xsd:documentation>v1.0 Initial version released
+v1.1 Updated to fix typos within attruibute naming and align with v1.1 schemas
+v1.2 Updated to reflect v1.1 of Organisation Types and change ProductIdentifier to be maxLength rather than fixed length
+v1.3 Baselined for Adam
+v1.3.1 Addition of Brand Id
+v1.4 Baselined in line with Common Quantity types v1.3
+v1.5 Baselined to Party_Management_Types and inclusion of 3DCAD data
+v1.6 Baselined to Organisation_Structure_Types_v1.3
+v1.6 Resolving errors within WPC (Adam) message definitions
+v1.7 KH Large Customer. Ammendments for enhanced messaging</xsd:documentation>
+  </xsd:annotation>
+  <xsd:simpleType name="ServiceType">
+    <xsd:restriction base="xsd:token"/>
+  </xsd:simpleType>
+  <xsd:complexType name="RegionalProductDetail">
+    <xsd:sequence>
+      <xsd:element name="Regional_product_number" type="prodman_typ:ProductIdentifier"/>
+      <xsd:element name="Product_descriptions" type="prodman_typ:ProductDescriptionCollection"/>
+      <xsd:element minOccurs="0" name="Regional_product_compliance"
+        type="comp_typ:RegionalProductCompliance"/>
+      <xsd:element minOccurs="0" name="Regional_supply_location" type="org_typ:SiteIdentifier"/>
+      <xsd:element minOccurs="0" name="WEEE_category" type="prodman_typ:WEEECategory"/>
+      <xsd:element minOccurs="0" name="Waste_category" type="prodman_typ:WasteCategory"/>
+      <xsd:element minOccurs="0" name="Buyer" type="org_typ:BuyerIdentifier"/>
+    </xsd:sequence>
+    <xsd:attribute name="region" type="org_typ:RegionIdentifier" use="required"/>
+  </xsd:complexType>
+  <xsd:simpleType name="IncoTermsCode">
+    <xsd:restriction base="xsd:token">
+      <xsd:length value="3"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="LanguageSpecificProductDescription">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="Short_description"
+        type="prodman_typ:ShortProductDescriptionString"/>
+      <xsd:element minOccurs="0" name="Long_description" type="prodman_typ:ProductDescriptionString"
+      />
+    </xsd:sequence>
+    <xsd:attribute name="lang" type="xsd:language" use="required"/>
+  </xsd:complexType>
+  <xsd:simpleType name="ForecastProfile">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="4"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="ManufacturerName">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="100"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="ManufacturerPartNumber">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="100"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="DisconReasonCode">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="01"/>
+      <xsd:enumeration value="02"/>
+      <xsd:enumeration value="03"/>
+      <xsd:enumeration value="04"/>
+      <xsd:enumeration value="11"/>
+      <xsd:enumeration value="B0"/>
+      <xsd:enumeration value="D0"/>
+      <xsd:enumeration value="D1"/>
+      <xsd:enumeration value="D2"/>
+      <xsd:enumeration value="D3"/>
+      <xsd:enumeration value="D4"/>
+      <xsd:enumeration value="D5"/>
+      <xsd:enumeration value="D6"/>
+      <xsd:enumeration value="D7"/>
+      <xsd:enumeration value="D8"/>
+      <xsd:enumeration value="N1"/>
+      <xsd:enumeration value="RL"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="PackType">
+    <xsd:restriction base="xsd:token">
+      <xsd:enumeration value="FINISHED"/>
+      <xsd:enumeration value="CALIBRATED"/>
+      <xsd:enumeration value="BULK"/>
+      <xsd:enumeration value="RAW"/>
+      <xsd:enumeration value="PRODUCTION_PACK"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="StorageCondition">
+    <xsd:restriction base="xsd:token">
+      <xsd:length value="2"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="ProductManufactureDetail">
+    <xsd:complexContent>
+      <xsd:extension base="prodman_typ:ProductManufactureSummary">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="Branding_code" type="prodman_typ:BrandingCode"/>
+          <xsd:element minOccurs="0" name="Manufacturer_id" type="party_typ:PartyIdentifier"/>
+          <xsd:element minOccurs="0" name="Norm_manufacturer_rs_part_number"
+            type="prodman_typ:ManufacturerPartNumber"/>
+          <xsd:element minOccurs="0" name="Manufacturer_rs_part_number"
+            type="prodman_typ:ManufacturerPartNumber"/>
+          <xsd:element minOccurs="0" name="Norm_manufacturer_part_number"
+            type="prodman_typ:ManufacturerPartNumber"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:simpleType name="BrandingCode">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="2"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="SupplySourceType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="EXTERNAL"/>
+      <xsd:enumeration value="INTERNAL"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="ReturnAgreementCode">
+    <xsd:restriction base="xsd:token">
+      <xsd:length value="2"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="ProductDescriptionCollection">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="Product_description"
+        type="prodman_typ:LanguageSpecificProductDescription"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="ProductHierarchyClassification">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="Family"/>
+      <xsd:element name="Section"/>
+      <xsd:element name="Super_section"/>
+      <xsd:element name="Book"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="ProductDescriptiveContent">
+    <xsd:sequence>
+      <xsd:element name="Description" type="prodman_typ:LanguageSpecificProductDescription"/>
+      <xsd:element minOccurs="0" name="Content" type="prodman_typ:Content"/>
+      <xsd:element name="Search_terms" type="prodman_typ:SearchTermCollection"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="ContentLevelCode">
+    <xsd:restriction base="xsd:token">
+      <xsd:length value="2"/>
+      <xsd:pattern value="[0-9]{2}"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="StockPolicyCode">
+    <xsd:restriction base="xsd:token">
+      <xsd:length value="2"/>
+      <xsd:pattern value="[0-9]{2}"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="FamilyCategorization">
+    <xsd:sequence>
+      <xsd:element name="Family" type="prodman_typ:FamilyCode"/>
+      <xsd:element name="Super_section" type="prodman_typ:FamilyCode"/>
+      <xsd:element name="Section" type="prodman_typ:FamilyCode"/>
+      <xsd:element name="Book" type="prodman_typ:FamilyCode"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="BrandName">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="50"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="TaxClassification">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="ZERO_RATE"/>
+      <xsd:enumeration value="LOW_RATE"/>
+      <xsd:enumeration value="FULL_RATE"/>
+      <xsd:enumeration value="SERVICE_FULL_RATE"/>
+      <xsd:enumeration value="EXEMPT"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="ProductLinkCollection">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="Product_link"
+        type="prodman_typ:ProductLink"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="CustomsCommodityCode">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="17"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="ProductLink">
+    <xsd:simpleContent>
+      <xsd:extension base="xsd:anyURI">
+        <xsd:attribute name="type" type="prodman_typ:LinkType" use="required"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="UnitOfMeasureDimensionsCollection">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" name="Unit_of_measure_dimension"
+        type="prodman_typ:UnitOfMeasureDimensions"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="GeneralItemCategory">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="4"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="BrandIdentifier">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="10"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="ProductDescriptionString">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="100"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="VendorSubRangeCode">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="6"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="SearchTermCollection">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="Search_term"
+        type="prodman_typ:SearchTerm"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="UnitOfMeasureDimensions">
+    <xsd:sequence>
+      <xsd:element name="Unit_of_measure" type="quant_typ:UnitOfMeasure"/>
+      <xsd:element name="Length" type="quant_typ:DimensionQuantity"/>
+      <xsd:element name="Width" type="quant_typ:DimensionQuantity"/>
+      <xsd:element name="Height" type="quant_typ:DimensionQuantity"/>
+      <xsd:element name="Volume" type="quant_typ:VolumeQuantityV2"/>
+      <xsd:element name="Net_weight" type="quant_typ:WeightQuantityV2"/>
+      <xsd:element name="Gross_weight" type="quant_typ:WeightQuantityV2"/>
+      <xsd:element minOccurs="0" name="Base_uom_conversion_numerator" type="xsd:integer"/>
+      <xsd:element minOccurs="0" name="Base_uom_conversion_denominator" type="xsd:integer"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="UnitOfMeasuresDimensionsDeliveries">
+    <xsd:annotation>
+      <xsd:documentation>v1.7 KH Large Customer. Added new type to be used for delivery type unit of measures which is generic enough to be used at either header or item level and is designed to be used with a quotable standard for UOM's rather than a list of enumerations.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="Length" type="quant_typ:SimpleAmountWithUomCode"/>
+      <xsd:element minOccurs="0" name="Width" type="quant_typ:SimpleAmountWithUomCode"/>
+      <xsd:element minOccurs="0" name="Height" type="quant_typ:SimpleAmountWithUomCode"/>
+      <xsd:element minOccurs="0" name="Volume" type="quant_typ:SimpleAmountWithUomCode"/>
+      <xsd:element form="unqualified" name="Net_weight" type="quant_typ:SimpleAmountWithUomCode"
+        minOccurs="0"/>
+      <xsd:element name="Gross_weight" type="quant_typ:SimpleAmountWithUomCode" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="WasteCategory">
+    <xsd:restriction base="xsd:string">
+      <xsd:length value="3"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="WasteCategoryAllowEmptyValue">
+    <xsd:annotation>
+      <xsd:documentation>Value must be precisely 3 characters long, or empty (see regular expression)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="3"/>
+      <xsd:minLength value="0"/>
+      <xsd:pattern value="|..."/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="LoadingGroup">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="4"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="SearchTerm">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="256"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="ProductManufactureSummary">
+    <xsd:sequence>
+      <xsd:element name="Manufacturer_name" type="prodman_typ:ManufacturerName"/>
+      <xsd:element name="Manufacturer_part_number" type="prodman_typ:ManufacturerPartNumber"/>
+      <xsd:element name="Brand" type="prodman_typ:BrandName"/>
+      <xsd:element name="Is_commercially_sensitive" type="xsd:boolean"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="LocalProductDetail">
+    <xsd:sequence>
+      <xsd:element name="Sales_organisation" type="org_typ:SalesOrganisationIdentifier"/>
+      <xsd:element minOccurs="0" name="Product_hierarchy" type="prodman_typ:ProductHierarchyCode"/>
+      <xsd:element minOccurs="0" name="Pricing_group" type="org_typ:PricingGroupIdentifier"/>
+      <xsd:element name="For_sale_period" type="quant_typ:TimePeriod"/>
+      <xsd:element minOccurs="0" name="Is_licensable" type="xsd:boolean"/>
+      <xsd:element minOccurs="0" name="Is_calibratable" type="xsd:boolean"/>
+      <xsd:element minOccurs="0" name="Is_repairable" type="xsd:boolean"/>
+      <xsd:element minOccurs="0" name="Is_air" type="xsd:boolean"/>
+      <xsd:element minOccurs="0" name="Has_production_pack_variant" type="xsd:boolean"/>
+      <xsd:element minOccurs="0" name="Is_production_pack" type="xsd:boolean"/>
+      <xsd:element minOccurs="0" name="Is_excluded_from_discount" type="xsd:boolean"/>
+      <xsd:element minOccurs="0" name="Is_repair" type="xsd:boolean"/>
+      <xsd:element minOccurs="0" name="Is_sys_cal_item" type="xsd:boolean"/>
+      <xsd:element minOccurs="0" name="Is_unit_priced" type="xsd:boolean"/>
+      <xsd:element minOccurs="0" name="Expected_annual_sales" type="xsd:integer"/>
+      <xsd:element minOccurs="0" name="NPI_reason_code" type="prodman_typ:NPIReasonCode"/>
+      <xsd:element minOccurs="0" name="Delivery_uom" type="quant_typ:UnitOfMeasure"/>
+      <xsd:element minOccurs="0" name="Delivery_Unit" type="quant_typ:IntegerUomAmount"/>
+      <xsd:element minOccurs="0" name="Sales_Unit" type="quant_typ:IntegerUomAmount"/>
+      <xsd:element name="Supply_data" type="prodman_typ:SupplyData"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="OfferLifecycleStatus">
+    <xsd:restriction base="xsd:string">
+      <xsd:length value="2"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="ProductIdentifier">
+    <xsd:restriction base="xsd:token">
+      <xsd:maxLength value="18"/>
+      <xsd:minLength value="1"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="ProductIdentifierAllowEmptyValue">
+    <xsd:restriction base="xsd:token">
+      <xsd:maxLength value="18"/>
+      <xsd:minLength value="0"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="GroupProductDetail">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="Introducing_country" type="quant_typ:Country"/>
+      <xsd:element name="Manufacture_data" type="prodman_typ:ProductManufactureDetail"/>
+      <xsd:element name="Product_compliance" type="comp_typ:ProductComplianceDetail"/>
+      <xsd:element name="Base_uom" type="quant_typ:UnitOfMeasure"/>
+      <xsd:element minOccurs="0" name="Purchasing_uom" type="quant_typ:UnitOfMeasure"/>
+      <xsd:element minOccurs="0" name="Is_stored_upright" type="xsd:boolean"/>
+      <xsd:element minOccurs="0" name="Is_asian_catalog_relevant" type="xsd:boolean"/>
+      <xsd:element minOccurs="0" name="Is_inter_catalog_relevant" type="xsd:boolean"/>
+      <xsd:element minOccurs="0" name="Tax_classification" type="prodman_typ:TaxClassification"/>
+      <xsd:element minOccurs="0" name="Shelf_life_period" type="xsd:nonNegativeInteger"/>
+      <xsd:element minOccurs="0" name="Remaining_shelf_life_minimum" type="xsd:nonNegativeInteger"/>
+      <xsd:element minOccurs="0" name="Product_hierarchy_classification"
+        type="prodman_typ:ProductHierarchyClassification"/>
+      <xsd:element name="Validity_period" type="quant_typ:TimePeriod"/>
+      <xsd:element minOccurs="0" name="Storage_conditions" type="prodman_typ:StorageCondition"/>
+      <xsd:element minOccurs="0" name="Requires_refridgerated_storage" type="xsd:boolean"/>
+      <xsd:element minOccurs="0" name="Is_esd" type="xsd:boolean"/>
+      <xsd:element minOccurs="0" name="Requires_upright_strorage" type="xsd:boolean"/>
+      <xsd:element minOccurs="0" name="Description_length_25"
+        type="quant_typ:DescriptionStringLength25"/>
+      <xsd:element minOccurs="0" name="Label_description" type="quant_typ:DescriptionStringLength32"/>
+      <xsd:element minOccurs="0" name="Customs_commodity_code"
+        type="prodman_typ:CustomsCommodityCode"/>
+      <xsd:element minOccurs="0" name="Sales_uom" type="quant_typ:UnitOfMeasure"/>
+      <xsd:element minOccurs="0" name="Issuing_uom" type="quant_typ:UnitOfMeasure"/>
+      <xsd:element minOccurs="0" name="Country_of_origin" type="quant_typ:Country"/>
+      <xsd:element name="Unit_of_measure_dimensions"
+        type="prodman_typ:UnitOfMeasureDimensionsCollection"/>
+      <xsd:element minOccurs="0" name="Merchandise_category"
+        type="prodman_typ:MerchandiseCategoryCode"/>
+      <xsd:element minOccurs="0" name="Temperature_conditions_indicator"
+        type="prodman_typ:TemperatureConditionIndicator"/>
+      <xsd:element minOccurs="0" name="General_item_category" type="prodman_typ:GeneralItemCategory"/>
+      <xsd:element minOccurs="0" name="Loading_group" type="prodman_typ:LoadingGroup"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="NPIReasonCode">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="ND"/>
+      <xsd:enumeration value="NU"/>
+      <xsd:enumeration value="PO"/>
+      <xsd:enumeration value="PS"/>
+      <xsd:enumeration value="RO"/>
+      <xsd:enumeration value="RP"/>
+      <xsd:enumeration value="RG"/>
+      <xsd:enumeration value="NG"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="FamilyCode">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="20"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="MerchandiseCategoryCode">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="9"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="SupplyData">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="Supply_source" type="prodman_typ:SupplySourceType"/>
+      <xsd:element minOccurs="0" name="Forecast_profile" type="prodman_typ:ForecastProfile"/>
+      <xsd:element minOccurs="0" name="Vendor" type="party_typ:VendorIdentifier"/>
+      <xsd:element minOccurs="0" name="Buyer" type="org_typ:BuyerIdentifier"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="Content">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="4000"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="WEEECategory">
+    <xsd:restriction base="xsd:token">
+      <xsd:length value="3"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="GroupProductIdentifer">
+    <xsd:restriction base="xsd:nonNegativeInteger">
+      <xsd:totalDigits value="18"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="ShortProductDescriptionString">
+    <xsd:restriction base="prodman_typ:ProductDescriptionString">
+      <xsd:maxLength value="40"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="ProductHierarchyCode">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="18"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="UsageCode">
+    <xsd:restriction base="xsd:token">
+      <xsd:length value="2"/>
+      <xsd:pattern value="[0-9]{2}"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="LinkType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="DOCUMENT"/>
+      <xsd:enumeration value="EXTERNAL_IMAGE"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="TemperatureConditionIndicator">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="2"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <!--CADModel related fields-->
+  <xsd:complexType name="CAD_Data_Collection">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="2" name="CAD_Data" type="prodman_typ:CAD_Data"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="CAD_Data">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="CAD_Model_Provider" type="prodman_typ:CADModelProvider"/>
+      <xsd:element minOccurs="0" name="CAD_Model_Number" type="prodman_typ:CADModelNumber"/>
+      <xsd:element minOccurs="0" name="CAD_Model_Content_Type"
+        type="prodman_typ:CADModelContentType"/>
+      <xsd:element minOccurs="0" name="CAD_Model_Update_Action"
+        type="prodman_typ:CADModelUpdateAction"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="CADModelProvider">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="20"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="CADModelNumber">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="100"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="CADModelContentType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="VIEW"/>
+      <xsd:enumeration value="DOWNLOAD"/>
+      <xsd:enumeration value="3D_CAD_VIEW"/>
+      <xsd:enumeration value="3D_CAD_DOWNLOAD"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="CADModelUpdateAction">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="ADD"/>
+      <xsd:enumeration value="CHANGE"/>
+      <xsd:enumeration value="DELETE"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="ProductUpdatedDetailRestricted">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="3D_CAD_ONLY"/>
+      <xsd:enumeration value="MULTIPLE_CHANGES"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:schema>

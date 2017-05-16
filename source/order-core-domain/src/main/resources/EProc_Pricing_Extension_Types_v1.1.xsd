@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns:party_typ="urn:electro:types/schema/business/partymanagement_v1.5"
+  xmlns:eppe_typ="urn:electro:types/schema/business/eprocpricing_v1.1"
+  targetNamespace="urn:electro:types/schema/business/eprocpricing_v1.1"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:import schemaLocation="Party_Management_Types_v1.5.xsd"
+    namespace="urn:electro:types/schema/business/partymanagement_v1.5"/>
+  <xsd:import schemaLocation="Sales_Order_Messages_v1.5.xsd" 
+    namespace="urn:electro:service/messages/schema/business/salesorder_v1.5" />
+  <xsd:annotation>
+    <xsd:documentation>v1.0 Initial version released</xsd:documentation>
+  </xsd:annotation>
+  <xsd:complexType name="EProcOrganisationSummary">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="party_typ:OrganisationSummary">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="EProc_pricing_enabled" type="xsd:boolean"/>
+          <xsd:element minOccurs="0" name="EProc_pricing_threshold" type="eppe_typ:PercentageRate"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:simpleType name="PercentageRate">
+    <xsd:restriction base="xsd:decimal">
+      <xsd:totalDigits value="8"/>
+      <xsd:fractionDigits value="3"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:schema>
